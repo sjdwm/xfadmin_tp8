@@ -1,0 +1,79 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs" />
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                  
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+
+                     <table class="table table-bordered table-striped table-hover table-condensed">
+        <thead>
+            <tr>
+                <th width="5%">cmtid</th>
+                <th width="10%">评论用户</th>
+                <th width="15%">评论时间</th>
+                <th width="50%">内容</th>
+                <th width="10%">是否审核</th>
+                <th width="10%">操作</th>
+            </tr>
+        </thead>
+        <foreach name="data" item="v">
+            <tr>
+                <td>{$v['cmtid']}</td>
+                <td>{$v['username']}</td>
+                <td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$v['date']))}</td>
+                <td>{$v['content']}</td>
+                <th style="vertical-align: inherit;">
+                    <eq name="v['status']" value="1"> ✔
+                        <else/> ✘</eq>
+                </th>
+                <td> <a style="color: blue;" href="{:U('Admin/Recycle/recover',array('table_name'=>'Comment','id_name'=>'cmtid','id_number'=>$v['cmtid']))}">恢复</a> | <a style="color: blue;" href="javascript:if(confirm('确定要删除吗?')) location='{:U('Admin/Recycle/delete',array('table_name'=>'Comment','id_name'=>'cmtid','id_number'=>$v['cmtid']))}'">彻底删除</a></td>
+            </tr>
+        </foreach>
+    </table>
+     <div style="text-align: center;">
+                    {$page}
+                    <script>
+                        $('.current').addClass('vi');
+                    </script>
+                </div>
+    <div style="clear:both"></div><br><br><br>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>

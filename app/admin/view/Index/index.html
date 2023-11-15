@@ -1,0 +1,180 @@
+{include file="Public/head"/}
+<body class="no-skin">
+{include file="Public/header"/}
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+<style>
+.view{padding:30px 0;background:#13cbae5;margin:10px 20px;color:#fff;text-align:center;}
+.view:hover{background:#133afd9;}
+.number{font-size:30px;}
+a:hover{text-decoration: none!important; }
+
+</style>
+<script src="__PUBLIC__/js/Chart.min.js"></script>
+    {include file="Public/sidebar"/}
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            {include file="Public/breadcrumbs" /}
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+
+                {include file="Public/set"/}
+
+                <!-- /section:settings.box -->
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="well">
+    <div class="col-sm-12 alert-info" style="font-size:16px;padding:10px 20px;margin-bottom:10px;">系统信息</div>
+    <div class="col-sm-3"><a href="{:url('Member/index')}">
+        <div class="view" style="background:#FDB45C">
+            <div class="inner">
+            <em class="number">{$users}</em><div class="title">注册人数</div>
+            </div>
+        </div></a>
+    </div>  
+    <div class="col-sm-3"><a href="{:url('Logs/user_log')}">
+        <div class="view"  style="background:#5cb85c">
+            <div class="inner">
+            <em class="number">{$user_line.1.num}</em><div class="title">昨日登录</div>
+            </div>
+        </div></a>
+    </div>  
+    <div class="col-sm-3"><a href="{:url('comment/index')}">
+        <div class="view" style="background:#428bca">
+            <div class="inner">
+            <em class="number">{$liuyan}</em> 条<div class="title">留言总数</div>
+            </div>
+        </div></a>
+    </div>  
+    <div class="col-sm-3">
+        <div class="view" style="background:#d9534f">
+            <div class="inner">
+            <em class="number"><?php echo GetHostByName($_SERVER['SERVER_NAME']);?></em><div class="title">服务器IP</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="view" style="background:#428bca">
+            <div class="inner">
+            PHP<em class="number">{:PHP_VERSION}</em><div class="title">P H P 版 本</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="view" style="background:#5cb85c">
+            <div class="inner">
+            <em class="number">{$mysql}</em><div class="title">MySQL版本 信息</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="view" style="background:#5bc0de">
+            <div class="inner">
+            <em class="number">{:PHP_OS}</em><div class="title">服务器 信息</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="view" style="background:#f0ad4e">
+            <div class="inner">
+            <em class="number"><?php echo php_sapi_name();?></em><div class="title">PHP运行方式</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 alert-info" style="font-size:16px;padding:10px 20px;margin-bottom:10px;">人员统计</div>
+   <div class="col-sm-4 text-center">
+        <div id="canvas-holder">
+            <canvas id="chart-area" width="250px" height="250px" />
+        </div>
+    </div>
+    <div class="col-sm-8 text-center">
+        <div id="canvas-holder" style="overflow: hidden;">
+            <canvas id="canvas" height="250" width="700"></canvas>
+        </div>
+    </div>
+    <div class="col-sm-4 text-center">注册登录人数比例图</div>
+    <div class="col-sm-8 text-center">登录量走势图</div>
+    
+        
+    
+    
+    
+    <div style="clear:both"></div>
+</div>
+
+<script>
+    var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+        var lineChartData = {
+            labels : ["{$user_line.14.day}","{$user_line.13.day}","{$user_line.12.day}","{$user_line.11.day}","{$user_line.10.day}","{$user_line.9.day}","{$user_line.8.day}","{$user_line.7.day}","{$user_line.6.day}","{$user_line.5.day}","{$user_line.4.day}","{$user_line.3.day}","{$user_line.2.day}","{$user_line.1.day}","{$user_line.0.day}"],
+            datasets : [
+                {
+                    label: "查询量",
+                    fillColor : "rgba(151,1813,205,0.2)",
+                    strokeColor : "green",
+                    pointColor : "#44b549",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)",
+                    data : [{$user_line.14.num},{$user_line.13.num},{$user_line.12.num},{$user_line.11.num},{$user_line.10.num},{$user_line.9.num},{$user_line.8.num},{$user_line.7.num},{$user_line.6.num},{$user_line.5.num},{$user_line.4.num},{$user_line.3.num},{$user_line.2.num},{$user_line.1.num},{$user_line.0.num}]
+                }
+            ]
+
+        };
+var pieData = [
+             // {
+             //     value: 111,
+             //     color:"#FDB45C",
+             //     highlight: "#FF5A5E",
+             //     label: "自动缴费会员"
+             // },
+             {
+                 value: {$users},
+                 color: "#46BFBD",
+                 highlight: "#5AD3D1",
+                 label: "注册人数"
+             },
+                
+                
+             {
+                 value: {$user_line.1.num},
+                 color: "#d9534f",
+                 highlight: "#61613134",
+                 label: "昨天登录人数"
+             }
+
+         ];
+            
+
+            window.onload = function(){
+                var ctx = document.getElementById("canvas").getContext("2d");
+                window.myLine = new Chart(ctx).Line(lineChartData);
+                var ctx = document.getElementById("chart-area").getContext("2d");
+                window.myPie = new Chart(ctx).Pie(pieData);
+            };
+    </script>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+   
+
+    {include file="Public/footer"/}
+
+</div><!-- /.main-container -->
+
+{include file="Public/footerjs"/}
+<!-- inline scripts related to this page -->
+
+</body>
+</html>

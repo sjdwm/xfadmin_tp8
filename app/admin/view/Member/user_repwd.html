@@ -1,0 +1,168 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<block name="style">
+    <style>
+    	.col-xs-6 .intw{
+    		width: 250px;
+   			padding: 5px;
+   			letter-spacing: 0px;
+    	}
+    	
+    </style>
+</block>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs"/>
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        
+<nav class="mysql"> 
+    <div class="collapse navbar-collapse navbar-form form-inline">
+          <if condition="$_SESSION['user']['lang'] eq 1 ">If the user forgets the password, he needs to apply for a password reset. After approval, the user can log in to the EIP system with the new password.<else />用户忘记密码重置密码申请,审批同意后该用户才可以用新密码登录EIP系统</if>
+    </div>
+  </nav>
+	
+                        
+             
+                          <table class="table table-hover">
+<thead>
+      
+        <tr align='left' bgcolor="#ccc">
+           <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Number<else />编 号</if></th>
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Name<else />姓名</if></th>
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">English Name<else />英文名</if></th>
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Company<else />公司</if></th>
+                    <!--  <th style="">部门</th> -->
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Job Title<else />职务</if></th>
+                   
+                    <!-- <th style="">申请说明</th> -->
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Status<else />状态</if></th>
+                    <th style=""><if condition="$_SESSION['user']['lang'] eq 1 ">Processing Time<else />审批时间</if></th>
+                    
+                    <th><if condition="$_SESSION['user']['lang'] eq 1 ">Operating<else />操 作</if></th>
+                
+        </tr>
+      </thead>
+        <tbody>
+        <volist name='list' id='vol'>
+        <tr>
+        <td>{$i}</td>
+        <td>{$vol.name}</td>
+        <td>{$vol.ename}</td>
+        <td><if condition="$_SESSION['user']['lang'] eq 1 ">{:user_companyen($vol['mid'])}<else />{:user_company($vol['mid'])}</if></td>
+        <!-- <td>{$vol.dept}</td> -->
+        <td>{$vol.post}</td>
+        
+        <!-- <td>{$vol.desc}</td> -->
+       <td> <?php if($vol['stop']==2){if($_SESSION['user']['lang']==1){echo 'no feedback';}else{echo '未反馈';}}elseif($vol['stop']==0){if($_SESSION['user']['lang']==1){echo '<span class="bbtn bbtnn bbtn-success">Agree</span>';}else{echo '<span class="bbtn bbtnn bbtn-success">同意</span>';}}elseif($vol['stop']==1){if($_SESSION['user']['lang']==1){echo '<span class="bbtn bbtnn bbtn-danger">Reject</span>';}else{echo '<span class="bbtn bbtnn bbtn-danger">拒绝</span>';}} ;?></td>
+        <td>{:date('Y-m-d ',$vol['sp_time'])}</td>
+        <td><if condition="$vol.stop neq '0'"> <a href="javascript:shenpi({$vol['id']})" class="bbtn bbtn-primary"><if condition="$_SESSION['user']['lang'] eq 1 ">Processing<else />审批</if></a><else/></if></td>
+        </tr>
+        </volist>
+            <tr>
+                <td colspan=9>
+                   <div style="text-align: center;">
+                      <ul class="pagination pagination-xs pagination-custom">
+                        {$show}
+                        <script>
+                        $('.current').addClass('vi');
+                        </script>
+                      </ul>
+                    </div>
+                </td>
+              </tr>
+        </tbody>
+</table>          
+                     
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+ <script>
+//文件删除
+function shenpi(a){
+    var lang ={$_SESSION['user']['lang']};
+          if(lang==0){
+            var confirm = '提交完后不能修改,取消点右上角X';
+            var approve = '同意';
+            var refuse = '拒绝';
+          }else{
+            var confirm = 'After submitting, you cannot modify it, click the X in the upper right corner to cancel';
+            var approve = 'Approve';
+            var refuse = 'Refuse';
+          }
+  layer.confirm(confirm, {
+            btn: [approve,refuse] //按钮
+          }, function(){            
+            //确定后的事件
+            //window.location.href='/Admin/Member/user_sp/id/'+a;
+            stop(a,1);
+          }, function(){
+            //取消后的事件,空就关闭提示框
+            //window.location.href='/Admin/Member/user_sp/type/2/id/'+a;
+            stop(a,2);
+          }); 
+}
+function stop(id,type){
+       var lang ={$_SESSION['user']['lang']};
+          if(lang==0){
+            var confirm = '提交完后不能修改,取消点右上角X';
+            var approve = '同意';
+            var refuse = '拒绝';
+          }else{
+            var confirm = 'After submitting, you cannot modify it, click the X in the upper right corner to cancel';
+            var approve = 'Approve';
+            var refuse = 'Refuse';
+          }
+        $.ajax({
+          url:"{:U('Member/user_repwd')}",
+          type:'post',
+          data:{'id':id,'type':type},
+          success:function(data){
+                            if(data.code==1){
+                              layer.msg(data.msg, {icon: 1});
+                              setTimeout('myrefresh()',1000);
+                            }else{
+                               
+                              layer.msg(data.msg, {icon: 2});
+                                
+                            }   
+            
+          }
+        });
+    }
+    function myrefresh(){
+       window.location.reload();
+}
+
+
+  </script>
+
+</body>
+</html>
