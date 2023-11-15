@@ -12,7 +12,7 @@ class Index
     {
 
        
-        return '小风博客www.hotxf.com';
+        return '小风博客www.hotxf.com 后台：/index.php/admin'.'<a href="../index.php/admin/" class="btn btn_submit J_install_btn">进入后台</a>';
 
     }
    
