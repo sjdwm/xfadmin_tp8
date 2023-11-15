@@ -2,7 +2,6 @@
 
 include 'auto.php';
 if(IS_SAE)
-header("Location: index_sae.php");
 
 if (file_exists('./install.lock')) {
     echo '
@@ -17,8 +16,6 @@ if (file_exists('./install.lock')) {
     exit;
 }
 @set_time_limit(1000);
-if (phpversion() <= '8.0.0')
-    set_magic_quotes_runtime(0);
 if ('8.0.0' > phpversion()){
 	header("Content-type:text/html;charset=utf-8");
 	exit('您的php版本过低，不能安装本软件，请升级到8.0.0或更高版本再安装，谢谢！');
@@ -28,7 +25,7 @@ date_default_timezone_set('PRC');
 error_reporting(E_ALL & ~E_NOTICE);
 header('Content-Type: text/html; charset=UTF-8');
 define('SITEDIR', _dir_path(substr(dirname(__FILE__), 0, -8)));
-define("TP_SHOP_VERSION", '20160501');
+define("XF_ADMIN_VERSION", '20231111');
 
 //数据库
 $sqlFile = 'xiaofeng.sql';
@@ -65,8 +62,8 @@ switch ($step) {
 
     case '2':
 
-        if (phpversion() < 5) {
-            die('本系统需要PHP5+MYSQL >=5.0环境，当前PHP版本为：' . phpversion());
+        if (phpversion() < 8) {
+            die('本系统需要PHP8+MYSQL >=8.0环境，当前PHP版本为：' . phpversion());
         }
 
         $phpv = @ phpversion();
@@ -94,6 +91,12 @@ switch ($step) {
             $mysql = '<span class="correct_span error_span">&radic;</span> 请安装mysqli扩展';
             $err++;
         }
+        if (extension_loaded('pdo_mysql')) {
+            $pdo_mysql = '<span class="correct_span">&radic;</span> 已安装';
+        } else {
+            $pdo_mysql = '<span class="correct_span error_span">&radic;</span> 请安装php_pdo_mysql扩展';
+            $err++;
+        }
         if (ini_get('file_uploads')) {
             $uploadSize = '<span class="correct_span">&radic;</span> ' . ini_get('upload_max_filesize');
         } else {
@@ -119,14 +122,14 @@ switch ($step) {
         }
         
         $folder = array(
-            'Install',
-           	'Public/attached',
-        	'App/Common/Conf',
-            'App/Runtime',
-        	'App/Runtime/Cache',
+            'Public/Install',
+           	'Public/upload',
+        	'Public/db',            
+        	'Runtime',
+            //'App/Runtime',
         	//'Application/Runtime/Data',
         	//'Application/Runtime/Logs',
-        	'App/Runtime/Temp',
+        	//'App/Runtime/Temp',
         );
         include_once ("./templates/step2.php");
         exit();
