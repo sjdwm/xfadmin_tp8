@@ -66,8 +66,8 @@ class Login extends BaseController{
                 Cookie::set('auth', $auth, 3600 * 24 * 30);//记住我30天  
                 Cookie::set('uid', $user['id'], 3600 * 24 * 30);//记住我
             } else {
-                Cookie::set('auth', $auth, 3600);//一小时
-                Cookie::set('uid', $user['id'], 3600);//一小时
+                /*Cookie::set('auth', $auth, 3600);//一小时
+                Cookie::set('uid', $user['id'], 3600);//一小时*/
                 
             }
             //修改登录时间和IP
