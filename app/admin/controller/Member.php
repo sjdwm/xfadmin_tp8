@@ -75,6 +75,9 @@ class Member extends BaseController
             $User = Db::name("users");
             $vo = input('get.v');
             $id = input('get.id');
+            if($id==1){
+               return json('超级管理员不可以禁用');
+            }
         if($vo == 1){
             //要修改stop值,0正常,1禁用
             $data['stop'] = 0;
@@ -93,6 +96,9 @@ class Member extends BaseController
             $User = Db::name("users");
             $vo = input('get.v');
             $id = input('get.id');
+            if($id==1){
+               return json('超级管理员不可以修改');
+            }
         if($vo == 1){
             //要修改stop值,0正常,1禁用
             $data['status'] = 0;

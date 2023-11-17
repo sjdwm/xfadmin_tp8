@@ -175,6 +175,10 @@
         function redoitt(b,c){
             //var bt=window.document.getElementById(c);
             restt = $('#'+c).hasClass('glyphicon glyphicon-remove ds');
+            if(b==1){
+              layer.msg('超级管理员不可以禁用', {icon: 0});
+              return;
+            }
             if(restt !== true){
               //bt.innerHTML="禁用";
               $('#'+c).attr("class","glyphicon glyphicon-remove ds");
@@ -205,6 +209,10 @@
         function redoit(b,c){
             //var bt=window.document.getElementById(c);
             restt = $('#'+c).hasClass('glyphicon glyphicon-remove ds');
+            if(b==1){
+              layer.msg('超级管理员不可以修改', {icon: 0});
+              return;
+            }
             if(restt !== true){
               //bt.innerHTML="禁用";
               $('#'+c).attr("class","glyphicon glyphicon-remove ds");
