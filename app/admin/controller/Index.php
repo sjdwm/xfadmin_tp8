@@ -11,7 +11,7 @@ class Index extends BaseController
 
     public function index()
     {
-
+        
         $model = Db::name('users');
         $mysql = Db::query("select VERSION() as mysql");
         $count = $model->count();
