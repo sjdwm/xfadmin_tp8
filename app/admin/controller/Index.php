@@ -24,13 +24,9 @@ class Index extends BaseController
             $arr[$i] =$this -> day_add(time(),'-'.$i.' day','-'.$j.' day');
         }
         //留言条数
-        //$liuyan=M('comment')->count('cmtid');
         View::assign('mysql', $mysql[0]['mysql']);
         View::assign('users',$count);
         View::assign('user_line',$arr);
-        //$this -> assign('liuyan',$liuyan);
-        
-        //echo $this->USER;
         return View::fetch();
 
     }
@@ -44,7 +40,7 @@ class Index extends BaseController
         $time1 =strtotime(date("Y-m-d",strtotime($date)));
         $time2 =strtotime(date("Y-m-d",strtotime($mdate)));
         //@rank=1(前台登录),@rank=3(后台登录)
-        $num =$users -> where("rank=3 and time > '$time1' and time < '$time2' ")-> count();
+        $num =$users -> where("'rank'='3' and time > '$time1' and time < '$time2' ")-> count();
         $result =array('day'=>$day,'num'=>$num);
         return $result;
     }
