@@ -2,13 +2,13 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Page;
 use fast\Data;
 use fast\Tree;
-class Menu extends BaseController
+class Menu extends ComController
 {
 
 

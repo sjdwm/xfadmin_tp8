@@ -2,12 +2,12 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Request;
 use think\facade\Db;
 use fast\Databases;
-class Database extends BaseController
+class Database extends ComController
 {
 
 

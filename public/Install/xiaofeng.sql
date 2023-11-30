@@ -89,14 +89,14 @@ CREATE TABLE `xf_auth_rule` (
   `name` char(80) NOT NULL DEFAULT '',
   `url` varchar(255) DEFAULT NULL COMMENT '前台菜单链接',
   `title` char(20) NOT NULL DEFAULT '',
-  `icon` varchar(255) NOT NULL,
+  `icon` varchar(255)  DEFAULT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '1',
   `cate` int(10) unsigned DEFAULT '1' COMMENT '前台权限和后台权限区分',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `condition` char(100) NOT NULL DEFAULT '',
   `islink` tinyint(1) NOT NULL DEFAULT '1',
   `o` int(11) NOT NULL COMMENT '排序',
-  `tips` text NOT NULL,
+  `tips` text  DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 

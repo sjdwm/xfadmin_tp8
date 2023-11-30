@@ -2,11 +2,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Page;
-class Variable extends BaseController
+class Variable extends ComController
 {
 
 //自定义变量控制器

@@ -2,7 +2,7 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use think\facade\Request;
@@ -11,7 +11,7 @@ use think\facade\Cookie;
 use think\facade\Config;
 use think\facade\Cache;
 
-class Login extends BaseController{
+class Login extends ComController{
     public function index()
     {
 
@@ -36,9 +36,9 @@ class Login extends BaseController{
         $password = isset($data['password']) ? trim($data['password']) : '';
         $remember = isset($data['remember']) ? $data['remember'] : 0;
         if ($username == '') {
-            $this->error('用户名不能为空！', U("login/index"));
+            $this->error('用户名不能为空！', url("login/index"));
         } elseif ($password == '') {
-            $this->error('密码必须！', U("login/index"));
+            $this->error('密码必须！', url("login/index"));
         }
 
         //验证用户名

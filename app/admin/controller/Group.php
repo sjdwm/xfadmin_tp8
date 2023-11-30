@@ -2,14 +2,14 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Tree;
 use fast\Data;
 use fast\Page;
 use think\facade\Request;
-class Group extends BaseController
+class Group extends ComController
 {
 
 
@@ -393,7 +393,7 @@ class Group extends BaseController
      public function homeauth(){
         //$count = Db::name('auth_rule')->count();
 
-        $list = Db::name('auth_rule')->order('o asc')->where(array('cate'=>2))->select();
+        $list = Db::name('auth_rule')->order('o asc')->where(array('cate'=>2))->select()->toArray();
         $list = Data::tree($list,'name','id','pid');//dump($cate);exit;
         //$list = $this->getMenu($list);//dump($list);exit;
 
@@ -405,7 +405,7 @@ class Group extends BaseController
     //添加前台用户权限
     public function homeauthadd(){
         $pid = input('pid',0,'intval');
-        $option = Db::name('auth_rule')->order('o ASC')->field('id,pid,title')->where(array('cate'=>2))->select();
+        $option = Db::name('auth_rule')->order('o ASC')->field('id,pid,title')->where(array('cate'=>2))->select()->toArray();
         $tree = new Tree($option);
         $str = "<option value=\$id \$selected>\$spacer\$title</option>"; //生成的形式
         $category = $tree->get_tree(0, $str, $pid);//dump($category);exit;
@@ -445,7 +445,7 @@ class Group extends BaseController
             $this->error('参数错误！');
         }
 
-        $option = Db::name('auth_rule')->order('o ASC')->where(array('cate'=>2))->select();
+        $option = Db::name('auth_rule')->order('o ASC')->where(array('cate'=>2))->select()->toArray();
         $tree = new Tree($option);
         $str = "<option value=\$id \$selected>\$spacer\$title</option>"; //生成的形式
         $option = $tree->get_tree(0, $str, $currentmenu['pid']);

@@ -2,14 +2,14 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use think\facade\Request;
 use fast\AjaxPage;
 use fast\Tree;
 use think\facade\Config;
-class Member extends BaseController
+class Member extends ComController
 {
 
 

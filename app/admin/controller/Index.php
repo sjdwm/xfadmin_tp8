@@ -2,11 +2,11 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Page;
-class Index extends BaseController
+class Index extends ComController
 {
 
     public function index()

@@ -10,14 +10,14 @@
  **/
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Page;
 use fast\AjaxPage;
 use fast\IpLocation;
 use think\facade\Request;
-class Logs extends BaseController
+class Logs extends ComController
 {
 
 

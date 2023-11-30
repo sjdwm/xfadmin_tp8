@@ -2,13 +2,13 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
 use fast\Tree;
 use fast\Data;
 use think\facade\Request;
-class Company extends BaseController
+class Company extends ComController
 {
 
 

@@ -2,10 +2,10 @@
 
 namespace app\admin\controller;
 
-use app\admin\controller\BaseController;
+use app\admin\controller\ComController;
 use think\facade\View;
 use think\facade\Db;
-class Link extends BaseController
+class Link extends ComController
 {
 
 
