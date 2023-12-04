@@ -36,8 +36,9 @@ class ComController extends BaseController
         }
         
         $UID = $this->USER['uid'];
-        $prefix = Config::get('database.connections.mysql.prefix');
-        $userinfo = Db::query("SELECT * FROM {$prefix}auth_group g left join {$prefix}auth_group_access a on g.id=a.group_id where a.uid=$UID");
+        //$prefix = Config::get('database.connections.mysql.prefix');
+        //$userinfo = Db::query("SELECT * FROM {$prefix}auth_group g left join {$prefix}auth_group_access a on g.id=a.group_id where a.uid=$UID");
+        $userinfo = Db::name("auth_group")->alias('g')->leftJoin('auth_group_access a','g.id=a.group_id')->where('a.uid',$UID)->select()->toArray();
         $Auth = new Auth();
         $module_name = app('http')->getName();//模块名称
         $allow_controller_name = array('Upload');//放行控制器名称
@@ -50,7 +51,9 @@ class ComController extends BaseController
         }
         
         $current_action_name = request()->action() == 'edit' ? "index" : request()->action();
-        $current = Db::query("SELECT s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle FROM {$prefix}auth_rule s left join {$prefix}auth_rule p on p.id=s.pid where s.name='" . $module_name.'/'.request()->controller() . '/' . $current_action_name . "'");
+        $sname = $module_name.'/'.request()->controller() . '/' . $current_action_name;
+        //$current = Db::query("SELECT s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle FROM {$prefix}auth_rule s left join {$prefix}auth_rule p on p.id=s.pid where s.name='" . $module_name.'/'.request()->controller() . '/' . $current_action_name . "'");
+        $current = Db::name("auth_rule")->alias('s')->leftJoin('auth_rule p','p.id=s.pid')->where('s.name',$sname)->field('s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle')->select()->toArray();
         View::assign('current', $current[0]);
 
 

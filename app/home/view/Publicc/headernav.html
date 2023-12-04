@@ -1,0 +1,58 @@
+ {if condition="input('type_ajax') neq 'ajax'"}
+
+
+<!-- <header class="clearfix" style="height: 120px;" id="box"> -->
+<header class="clearfix">
+	<!-- Static navbar -->
+	<div class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{:url('Index/index')}"><img alt="" title="返回首页" src="__PUBLIC__/Home/image/logo.png"></a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-left">
+					<!-- 1 -->{volist name="cate" id="vo"}
+					<li class="drop"><a 
+						href="{$vo.url}">{$_SESSION['user']['lang']==0?$vo['title']:$vo['ename']}<?php if(!empty($vo['_data'])): ?><?php endif; ?></a>
+				<?php if(!empty($vo['_data'])): ?>
+						<ul class="drop-down">
+							<!-- 2 -->{volist name="vo['_data']" id="v"}
+							<li  class="drop"><a 
+								 {if condition="$vo.id eq '83'"}target="_blank"{/if} class=""
+												href="{$v.url}">{$_SESSION['user']['lang']==0?$v['title']:$v['ename']}<?php if(!empty($v['_data'])): ?><span
+													class="caret"></span><?php endif; ?></a>
+											<?php if(!empty($v['_data'])): ?>
+								<ul class="drop-down level3">
+									<!-- 3 -->{volist name="v['_data']" id="v2"}
+									<li><a href="{$v2.url}">{$_SESSION['user']['lang']==0?$v2['title']:$v2['ename']}<?php if(!empty($v2['_data'])): ?><span
+																class="caret"></span><?php endif; ?></a>
+														<?php if(!empty($v2['_data'])): ?>
+														<ul class="drop-down level4">
+															<?php foreach ($v2['_data'] as $key => $vv) { ?>
+															<li class=""><a target="_blank" class="" href="{$vv.url}">{$_SESSION['user']['lang']==0?$vv['title']:$vv['ename']}</a>
+															</li>
+															<?php } ?>
+														</ul>
+														<?php endif; ?>
+									</li>
+								{/volist}
+								</ul>
+								<?php endif; ?>
+							</li>
+						{/volist}
+						</ul>
+						<?php endif; ?>
+					</li>
+				{/volist}
+				</ul>
+				
+			</div>
+		</div>
+	</div>
+</header>
+{/if}

@@ -1,0 +1,60 @@
+<!-- 底部 -->
+<!-- <br><br><br><br> -->
+ {if condition="input('type_ajax') neq 'ajax'"}
+<div style="height: 130px;">
+    <div class="row bottom-box" id="bottom" style="position:absolute;bottom: 0;">
+        <div>
+            <div class="nav-bottom" >
+                <img src="__PUBLIC__/Home/image/logo-bottom.jpg" alt="图片加载失败">
+                　 <a href="{:url('Index/index')}">
+                    首页　|</a>
+                　 <a href="{:url('Groupnotice/index')}">
+                    集团公告　|</a>
+                　 <a href="{:url('SourseCenter/index')}">
+                    知识分享中心　|</a>
+                　 <a href="javascript:0">
+                   系统功能　|</a>
+                　 <a href="{:url('Managerschedule/my')}">
+                    经理人行程表　|</a>
+                　 <a href="{:url('Calendar/my')}">
+                    行事历　|</a>
+                　 <a href="{:url('User/index')}">
+                    个人中心　</a>
+            </div>
+        </div>
+        <div>
+            <div class="bottom">
+               {$Think.config.config.sitename} Copyright © {:date('Y',time())}  All rights reserved.
+                
+            </div>
+        </div>
+    </div>
+</div>
+{/if}   
+  <!-- 回到顶部 -->
+  <div class="top">
+	<img src="__PUBLIC__/Home/image/top-1.png" title="返回顶部" alt="">
+  </div>
+<script>
+	    // 回到顶部按钮
+        function init() {
+            if ($(window).scrollTop() > 50) {
+                $(".top").fadeIn(200);
+            } else {
+                $(".top").fadeOut(200);
+            }
+        }
+        init();
+        //  返回顶部按钮-显示隐藏
+        $(window).scroll(function () {
+            init();
+        });
+        //  点击返回顶部
+        $(".top").click(function (e) {
+            $("body,html").animate({
+                scrollTop: 0
+            }, 1000)
+            return false
+        });
+       
+</script>

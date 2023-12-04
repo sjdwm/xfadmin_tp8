@@ -168,7 +168,7 @@ class Group extends ComController
     public function update(){
         $id = input('id',false,'intval');
         $data['title'] = input('title',false,'trim');
-        $status = input('status','','intval');
+        $status = input('status','');
         $rules = input('rules',0);
         if ($data['title']) {
             

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$Think.config.config.sitename}</title>
+    {include file="Publicc:head" /}
+    <script type="text/javascript">
+       //手机版跳转
+            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                    window.location.href = "{:url('Index/index',array('type'=>'phone'))}";
+                }
+
+    </script>
+    <style>
+        .hide_top{
+            display: none;
+        }
+        @font-face{
+            font-family: myFont;
+            src: url("__PUBLIC__/Home/font/Raleway-SemiBold.ttf");
+        }
+        body{
+            font-family: myFont !important;
+            background: url(__PUBLIC__/Home/image/index/10.jpg) no-repeat center center !important;
+			background-size: 100% !important;
+			width: 100% !important;
+			height: 100% !important;
+			background-attachment: fixed !important;
+        }
+
+		.has-success .input-group-addon{
+			color: white;
+			background-color: rgb(250,0,129);
+			border-color: rgb(250,0,129) !important;
+		}
+		.search_inp{
+			border-color: rgb(250,0,129) !important;
+		}
+
+	
+		input[type="text"]:focus{
+				box-shadow: 0px 0px 10px rgb(250,0,129) !important;
+				}
+		.carousel-inner{
+			border-radius: 10px !important;
+			}
+
+            #run{
+        overflow: hidden;
+        flex: 1;
+        height: 24px;
+        line-height: 24px;
+        position: relative;
+      }
+      .run_txt {
+        position: absolute;
+        white-space: nowrap;
+        padding-left: 100%;
+        animation: notice 30s 0s linear infinite both;
+        font-size: 21px;
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: #757575;
+      }
+      @keyframes notice {
+        100% {
+          transform: translate3d(-100%, 0, 0);
+        }
+      }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div class="container-fluid">
+            <!-- 头部导航 -->
+            {include file="Publicc:headernav" /}
+           
+            <div class="container-fluid">
+                <div class="row" style="width: 100%;margin: 0 auto;margin-top: 40px;">
+                    <div class="col-md-8" style="width: 68%;height: 200px;border-radius: 10px;background: rgba(255, 255, 255,0.1);margin-left: 10px;">
+                        <select onchange="langs(this);" name="" id="" style="float: right;margin-top: 40px;margin-right: 10px;width: 110px;background-color: rgba(255, 255, 255,0.1);color:rgb(250,0,129);" class="form-control">
+                            <option value="1" {if condition="$Think.session.user.lang eq 1"}selected="selected"{/if}>English</option>
+                            <option value="0" {if condition="$Think.session.user.lang eq 0"}selected="selected"{/if}>中文简体</option>
+                        </select>
+                        <div  style="color: white;text-align: center;width: 100%;">
+                         <h2 style="color: white;">Hi~ {$name}</h2><br> 
+                         <p style="color: white;font-size: 21px;">Welcome to the  EIP system !</p><br>
+                      
+                         <div class="form-group has-success has-feedback">
+                         <div class="input-group">
+                             <span class="glyphicon glyphicon-search input-group-addon"></span>
+                            <div  class="b-search">
+                                <form class="form-inline"  role="form" action="{:url('Home/Index/search')}" method="get">
+                                <input style="width:90%;" type="text" name="search_word" class="form-control search_inp" placeholder="Search">
+                                <button type="submit" class="btn btn-info" style="background-color: rgb(250,0,129);border: none;height: 34px;">
+                                    搜索
+                                </button>
+                            </form>
+                            </div>
+                         </div>
+                         </div>
+                        </div>
+                        <div id="run">
+                            
+                                <p style="color: white;" class="run_txt">
+                                    城市 : <span style="color: orange;" class="city"></span>　
+                                    日期 : <span style="color: orange;" class="date"></span>　
+                                    温度 : <span style="color: orange;" class="tem"></span>　
+                                    空气质量 : <span style="color: orange;" class="weather"></span>　
+                                    天气 : <span style="color: orange;" class="tianqi"></span>　
+                                    风向 : <span style="color: orange;" class="fengxiang"></span>　
+                                    风速 : <span style="color: orange;" class="fengsu"></span>　
+                                    提醒 : <span style="color: orange;" class="tixing"></span>　
+                                </p>
+                           
+                         </div>
+                     </div>
+                         <!-- 轮播图 -->
+                    <div class="col-md-4 right" style="width: 30%;height: 200px;margin-left: 10px;border-radius: 10px;">
+                        <div class="layui-carousel" id="test1" >
+                            <div carousel-item  >
+                              <div>   <img src="__PUBLIC__/Home/image/banner-03.png" style="width: 100%;height: 100%"   alt=""></div>
+                              <div>   <img src="__PUBLIC__/Home/image/index/2.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
+                              <div>   <img src="__PUBLIC__/Home/image/index/3.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
+                            </div>
+                          </div>
+                    </div>
+                   </div>
+            <br>
+                   <!-- 功能选单 -->
+                   <div class="row" style="width: 90%;margin: 0 auto;background-color: rgba(0, 0, 0,0.5);border-radius: 10px;margin-bottom: 80px;margin-top: 80px;">
+                    <!-- hr部分 -->
+                    <div class="col-md-2" style="height: 400px;border-right: 2px dashed rgb(250,0,129);">
+                        <div  style="width: 100%;height: 50%;text-align: center;color: white;display: flex;flex-direction: column;align-items: center;position: relative;">
+                            <a href="{:url('Admin/System/document_no_hr')}" style="text-decoration: none;color: white;">
+                                <img src="__PUBLIC__/Home/image/index/icon/人事信息管理.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                                <span>  HR管理中心</span></a>
+                        </div>
+
+                        <div style="width: 100%;height: 50%;text-align: center;color: white;display: flex;flex-direction: column;align-items: center;position: relative;">
+                            <a href="{:url('HrReport/year_show')}" style="text-decoration: none;color: white;">
+                                <img src="__PUBLIC__/Home/image/index/icon/管理员_角色管理.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span>  管理者平台</span>
+                            </a>
+                        </div>
+                    </div>
+    
+                    <!-- 员工部分 -->
+                    <div class="col-md-10" style="height: 400px;">
+                        <div class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                           <div id="payroll" style="cursor:pointer">
+                            <img src="__PUBLIC__/Home/image/index/icon/工资条.png" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);display: inline-block;" alt=""><br>
+                            <span> 工资条</span>
+                           </div>
+                        </div>
+                        
+                        <div  class="col-md-2 col-xs-2"  style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                          <div id="contacts" style="cursor:pointer">
+                            <img src="__PUBLIC__/Home/image/index/icon/maillist.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);display: inline-block;" alt=""><br>
+                            <span>   通讯录</span>
+                          </div>
+                        </div>
+    
+                        <div  class="col-md-2 col-xs-2"  style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                          <div id="employee_handbook" style="cursor:pointer">
+                            <img src="__PUBLIC__/Home/image/index/icon/安全手册-319.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span> 员工手册</span>
+                          </div>
+                        </div>
+    
+                        <div   class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                            <div id="all_form" style="cursor:pointer">
+                                <img src="__PUBLIC__/Home/image/index/icon/营销工具-关联列表.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span> 各类表单</span>
+                            </div>
+                        </div>
+                        
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                            <div id="conference_room_reservation" style="cursor:pointer">
+                                <img src="__PUBLIC__/Home/image/index/icon/会议室安全.png" style="width:60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span>   会议室预定</span>
+                            </div>
+                        </div>
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                           <div id="hr_form" style="cursor:pointer">
+                            <img  src="__PUBLIC__/Home/image/index/icon/HR、人事-05 (2).png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span> 人事表单</span>
+                           </div>
+                        </div>
+    
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                            <div id="Group_notice" style="cursor:pointer">
+                                <img src="__PUBLIC__/Home/image/index/icon/15政策.png" style="width:60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span>   集团公告</span>
+                            </div>
+                        </div>
+    
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                            <div id="organizationalStructure" style="cursor:pointer">
+                                <img src="__PUBLIC__/Home/image/index/icon/团队、组织架构、社群-03.png" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span>   组织架构部门执掌</span>
+                            </div>
+                        </div>
+                       
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                           <a style="color: white;" href="{:url('Admin/System/document_no_hr')}" target="_blank">
+                            <img src="__PUBLIC__/Home/image/index/icon/申请单.png" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span> 签呈编号申请</span>
+                           </a>
+                        </div>
+    
+                        <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
+                           <a style="color: white;" href="{:url('Public/logout')}" target="_blank">
+                            <img src="__PUBLIC__/Home/image/index/icon/退出登录 (1).png" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
+                            <span>  退出登录</span>
+                           </a>
+                        </div>
+                    </div>
+                   </div>
+            </div> 
+           
+            <!-- 右侧固定栏 -->
+            {include file="Publicc:position" /}
+            {include file="Publicc:footer" /}
+        </div>
+    </div>
+  
+    {if condition="($repwd eq 1) "}
+        <script>
+            //提示修改密码
+            layer.open({
+                type: 1,
+                title: '信息 Info',
+                offset: 'rb' //具体配置参考：offset参数项
+                    ,
+                content: '<div style="padding: 10px 5px;">请修改初始密码 Please change the initial password</div>',
+                btn: ['Modify', 'Close'],
+                btnAlign: 'c' //按钮居中
+                    ,
+                shade: 0 //不显示遮罩
+                    ,
+                time: 15000,
+                yes: function () {
+                    window.location.href = '/User/index/passwd/pwd';
+                },
+                btn2: function () {
+                    layer.closeAll();
+                }
+            });
+        </script>
+    {/if}
+    <!-- <script src="./js/index.js"></script> -->
+    <script>
+        // 右侧悬浮框时间
+        function time() {
+            var date = new Date();
+            year = date.getFullYear();
+            month = date.getMonth() + 1;
+            day = date.getDate();
+            hours = date.getHours();
+            minutes = date.getMinutes();
+            seconds = date.getSeconds();
+            document.getElementById("time").innerHTML = year + "/" + month + "/" + day  + "/" + hours + ":" + minutes +
+                ":" + seconds;
+        };
+        //setInterval("time()", 1000);
+        // 弹窗---组织架构及部门执掌
+        $("#organizationalStructure").click(function () {
+            chart("{:url('Worldmap/index',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗 --- 部门mbo department_MBO
+        $("#department_MBO").click(function () {
+            chart("{:url('HrKPI/department',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗--- 集团绩效group_performance
+        $("#group_performance").click(function () {
+            chart("{:url('MboCountry/index',array('type_ajax'=>'ajax'))}");
+        })
+        // 集团通讯录 contacts
+        $("#contacts").click(function () {
+            chart("{:url('User/phone',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---样品图书馆 sample_library
+        $("#sample_library").click(function () {
+            chart("{:url('Weblibrary/index',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---员工手册employee_handbook
+        $("#employee_handbook").click(function () {
+            chart("{:url('SourseCenter/shouce',array('type_ajax'=>'ajax'))}")
+        });
+        // 弹窗---各国劳动法 labor
+        $("#labor").click(function () {
+            chart("{:url('SourseCenter/domesticlaborlaw',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---核决权限表 Permissions
+        $("#permissions").click(function () {
+            chart("{:url('SourseCenter/hr_doa',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---制度说明与理念澄清system_description
+        $("#system_description").click(function () {
+            chart("{:url('SourseCenter/hrdata',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---管理方法 SourseCenter/index/cid/53
+        $("#methods").click(function () {
+            chart("{:url('SourseCenter/index',array('cid'=>53,'type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---人事表单
+        $("#hr_form").click(function () {
+            chart("{:url('SourseCenter/index',array('cid'=>51,'type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---各类表单SourseCenter/index/cid/52
+        $("#all_form").click(function () {
+            chart("{:url('SourseCenter/index',array('cid'=>52,'type_ajax'=>'ajax'))}");
+        })
+        // 弹窗 ---月度月报查看rep_look_month
+        $("#rep_look_month").click(function () {
+            chart("{:url('HrReport/show',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---年度报表查看rep_look_year
+        $("#rep_look_year").click(function () {
+            chart("{:url('HrReport/year',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---薪资月报查看salary_rep_month
+        $("#salary_rep_month").click(function () {
+            chart("{:url('HrReport/report_salary',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---招聘需求审批表recruitment_needs
+        $("#recruitment_needs").click(function () {
+            chart("{:url('System/overseas',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---个人信息
+        $("#userInfo").click(function () {
+            chart("{:url('User/index',array('type_ajax'=>'ajax'))}");
+        });
+        // 弹窗---员工工资条 payroll
+        $("#payroll").click(function () {
+            chart("{:url('System/payslip',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹窗---个人绩效
+        $("#personalPerformance").click(function () {
+            chart("{:url('HrKPI/index',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---hr月报管理hr_monthlyManagement1
+        $("#hr_monthlyManagement1").click(function () {
+            chart("{:url('HrReport/myadm',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---薪资月报提交salary_report1
+        $("#salary_report1").click(function () {
+            chart("{:url('HrReport/report_salary',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---人力需求表 
+        $("#salary_report2").click(function () {
+            chart("{:url('HrTalents/index',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---hr月报提交hr_monthly1
+        $("#hr_monthly1").click(function () {
+            chart("{:url('HrReport/report',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---人力资源分析看板rep_look_year_hr
+        $("#rep_look_year_hr").click(function () {
+            chart("{:url('HrReport/year_show',array('type_ajax'=>'ajax'))}")
+        })
+        // 弹窗---案例分享
+        $("#case").click(function () {
+            chart("{:url('SourseCenter/index',array('cid'=>66,'type_ajax'=>'ajax'))}");
+        })
+        //  弹窗---各类资源政策 policy
+        $("#policy").click(function () {
+            chart("{:url('SourseCenter/index',array('cid'=>70,'type_ajax'=>'ajax'))}");
+        })
+        // 集团公告
+          $("#Group_notice").click(function () {
+            chart("{:url('Groupnotice/index',array('type_ajax'=>'ajax'))}");
+        })
+         //  弹窗---会议室预定 conference_room_reservation
+         $("#conference_room_reservation").click(function () {
+            chart("{:url('System/conference_room_reservation',array('type_ajax'=>'ajax'))}");
+        })
+        // 弹框
+        function chart(url) {
+            layer.open({
+                type: 2,
+                // title: ["按下Esc关闭该弹窗", 'color:#1ac0c6'],
+                shadeClose: true,
+                shade: [0.4, '#393D49'],
+                scrollbar: false,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['1200px', '80%'],
+                content: url //注意，如果str是object，那么需要字符拼接'。
+            });
+        }
+        // 按下ESC按钮关闭弹层
+        $(document).ready(function () {}).keydown(
+            function (e) {
+                if (e.which === 27) {
+                    layer.closeAll();
+                }
+            });
+        // 说明书
+        $("#btn_c").click(function () {
+            location.href = "{:url('Groupnotice/help')}"
+        })
+        // 季刊
+        $("#btn_book").click(function () {
+            location.href = "{:url('Public/book_directory')}"
+        })
+        // 上海公告
+        $("#btn-sh").click(function () {
+            location.href = "{:url('Groupnotice/shanghai')}"
+        })
+        // 集团公告
+        $("#btn-group").click(function () {
+            location.href = "{:url('Groupnotice/index')}"
+        })
+        function removeActiveClass(node) {
+            node.className = '';
+        }
+        let menus = document.querySelectorAll('#partition');
+        menus.forEach(function (value, index) {
+            value.addEventListener('click', function (e) {
+                var target = e.target;
+                Array.prototype.forEach.call(document.querySelectorAll('#partition a'),
+                    removeActiveClass);
+                target.className = 'active';
+            })
+        });
+       
+        function getDate(){
+            $.ajax({
+            url: "https://www.tianqiapi.com/api/?version=v9&appid=23035354&appsecret=8YvlPNrz",
+            // url: "https://v0.yiketianqi.com/api?unescape=1&version=v62&appid=45214937&appsecret=SzjVvY7V",
+            type: 'get',   
+            success(res) {
+                $(".city").html(res.city)
+                $(".city_e").html(res.cityEn)
+                $(".date").html(res.data[0].date)
+                $(".date_e").html(res.data[0].date)
+                $(".tem").html(res.data[0].tem2 + "-" + res.data[0].tem1 + "°")
+                $(".tem_e").html(res.data[0].tem2 + "-" + res.data[0].tem1 + "°")
+                $(".weather").html(res.data[0].air_level)
+                //$(".weather_e").html(res.aqi.air_level)
+                $(".tianqi").html(res.data[0].wea)
+                $(".fengxiang").html(res.data[0].win[0])
+                $(".fengsu").html(res.data[0].win_meter)
+                $(".fengsu_e").html(res.data[0].win_meter)
+                $(".tixing").html(res.data[0].air_tips)
+                $(".shidu_e").html(res.data[0].humidity)
+                $(".riluo_e").html(res.data[0].sunset)
+                console.log(res);
+            }
+        });
+        }
+      getDate()
+
+
+    //   document.onscroll = function (event){
+    //     var ss = event.path[1].scrollY
+    //     var box = document.getElementById("box")
+    //     if(Math.round(ss) > 10){
+    //         box.style.top = 0;
+    //         box.style.zIndex = "999"
+    //         box.style.width = "100%";
+    //     }else{
+    //         box.style.top = "-120px"
+    //     }
+    //   }
+
+    layui.use('carousel', function(){
+  var carousel = layui.carousel;
+  //建造实例
+  carousel.render({
+    elem: '#test1'
+    ,width: '100%' //设置容器宽度
+    ,height:"200px"
+    ,arrow: 'always' // 始终显示箭头
+    //,anim: 'updown' //切换动画方式
+  });
+});
+    </script>
+</body>
+</html>

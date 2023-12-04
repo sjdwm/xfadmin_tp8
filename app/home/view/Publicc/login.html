@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Global Maxim">
+    <meta name="generator" content="Global Maxim">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用户登录 - {$Think.config.config.sitename}</title>
+    {include file="Publicc:head" /}
+    <style type="text/css" media="screen">
+        .zhan {
+            color: #fff;
+            background-color: #9fd339;
+            border-color: #48a91f;
+        }
+
+        .modal.modal-fullscreen .modal-dialog {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            max-width: none;
+        }
+
+        .modal.modal-fullscreen .modal-content {
+            height: auto;
+            height: 100vh;
+            border-radius: 0;
+            border: none;
+        }
+
+        .modal.modal-fullscreen .modal-body {
+            overflow-y: auto;
+        }
+
+        * {
+            outline-width: 0;
+            font-family: "Nunito" !important;
+        }
+
+        body {
+            height: auto;
+            width: 100vw;
+            background: url(../../../../static/Home/image/bg1.jpg) center/cover fixed !important;
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+        }
+        #formContainer {
+            display: flex;
+            justify-content: center;
+            transition: 0.2s ease;
+            height: 342.5px;
+            transition-delay: 0.3s;
+
+        }
+        .formLeft {
+            background: #fff;
+            border-radius: 5px 0 0 5px;
+            padding: 0 35px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+
+        .formLeft img {
+            display: block;
+            width: 72px;
+            border-radius: 50%;
+            box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+        }
+
+        .formRight {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 5px 5px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .formRight:before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            filter: blur(5px);
+        }
+
+        .formRight form {
+            position: relative;
+            width: 350px;
+            padding: 25px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .formRight form header {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .formRight form header p {
+            margin: 5px 0 0;
+            opacity: 0.5;
+            font-size: 14px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .formRight form section label {
+            display: block;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .formRight form section label p {
+            color: white;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+            font-size: 12px;
+            /* opacity: 0.5; */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .formRight form section label input {
+            width: 100%;
+            display: block;
+            border: none;
+            background: transparent;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0 0 10px;
+            box-sizing: border-box;
+            font-weight: 600;
+        }
+
+        .formRight form section label input:focus~.border {
+            transform: scale(1, 1);
+        }
+
+        .formRight form section label input:not(:-moz-placeholder-shown)~.border {
+            transform: scale(1, 1);
+        }
+
+        .formRight form section label input:not(:-ms-input-placeholder)~.border {
+            transform: scale(1, 1);
+        }
+
+        .formRight form section label input:not(:placeholder-shown)~.border {
+            transform: scale(1, 1);
+        }
+
+        .formRight form section label .border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+            transform: scale(0, 1);
+            transition: 0.2s ease;
+        }
+
+        .formRight form section label:last-child {
+            margin-bottom: 0;
+        }
+
+        .formRight form section button {
+            background: rgb(250, 0, 129);
+            border: none;
+            width: 100%;
+            padding: 10px 0;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .formRight form section button:hover {
+            background: rgba(250, 0, 129, 0.8);
+            color: white;
+        }
+        .a:hover{
+            color: rgb(250, 0, 129) !important;
+        }
+        #a{
+            position: absolute;
+            margin-top: 5px;
+            margin-left: 340px;
+        }
+        #a_2{
+            position: absolute;
+            margin-top: 320px;
+            margin-left: -80px;
+        }
+        @media (min-width: 1200px){
+            .showeip{
+                width: 50% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sunfw-wrapper" class="sunfw-content ">
+        {include file="Publicc:headernav" /}
+        <br><br><br><br><br><br><br><br>
+        <div id="formContainer" class="dwo">
+            <div class="formLeft">
+                <img src="__PUBLIC__/Home/image/def_1.png">
+            </div>
+            <div class="formRight">
+                <!-- 登录界面 -->
+                <form id="login" action="{:url('Publicc/dologin')}" method="post">
+                    <br>
+                    <header>
+                        <h3 style="color: white;">欢迎回来</h3>
+                        <p>请先登录(使用ERP账号登录系统)</p>
+                    </header>
+                    <section>
+                        <label>
+                            <p>用户名</p>
+                            <input type="text" placeholder="请输入用户名" name="username" id="username" value="{:input('get.name')}"
+                                class="validate-username required invalid" size="25" required="required"
+                                aria-required="true" autofocus="" aria-invalid="true">
+                            <div class="border"></div>
+                        </label>
+                        <label>
+                            <p>密码</p>
+                            <input type="password" placeholder="请输入密码" name="password" id="password" value=""
+                                class="validate-password required" size="25" maxlength="99" required="required"
+                                aria-required="true">
+                            <div class="border"></div>
+                        </label>
+                        <button type="submit" class="btn">登 录</button>
+                    </section>
+                 <br>
+                        <div class="control-label" title="Remember password" style="color: white;text-align: center;">
+                            <label><input id="remember" type="checkbox" name="remember" class="inputbox" style="vertical-align: top;">记住我</label>　　　　　　　　
+                            <p style="display: inline-block;"><a class="a" style="color: #e3e3e3;font-size: 12px;" target="_blank" href="{$Think.config.app.erp_url}">登录ERP系统</a></p>
+                        </div>
+                  
+                    <input type="hidden" name="return" value="aHR0cDovL21heGltLWVpcC5jb20v">
+                    <input type="hidden" name="f167a908d74b6d34d23a0d8862412083" value="1">
+                </form>
+            </div>
+            <br>
+            <div>
+            </div>
+            <div id="a">
+              <!--   <p style="display: inline-block;"><a class="a" style="color: #e3e3e3;font-size: 12px;" href="{:url('emailhelp')}" >使用邮箱账号登录说明</a></p> -->
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade modal-fullscreen" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        style="z-index: 10000;" onselectstart="return false;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-image: linear-gradient(to right,#ecf6fb,#e7cbed,#dff5ef);">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">MAXIM-EIP</h4>
+                </div>
+                <div class="modal-body" style="background-image: linear-gradient(to right,#ecf6fb,#e7cbed,#dff5ef);">
+           
+                    <div id="ajax_return">
+                        <p class="text-center">
+                            <button type="button" class="btn btn-primary btn-lg" onClick="lists(1,1);">
+                                中英文切换
+                            </button>
+                        </p>
+                        <h3>
+                            <p class="text-center">找回密码</p>
+                        </h3>
+                        <p class="text-center">
+                            <br><br><br>
+                            注册EIP账号的邮箱验证<br>
+                            <button type="button" class="btn btn-success">使用邮箱重置</button>
+                            <br> <br><br>
+                            有填写中国手机号的用户<br>
+                            <button type="button" class="btn btn-info">使用手机号重置</button>
+                            <br> <br><br>
+                            如果都没有的,提交给Country主管重置<br>
+                            <button type="button" class="btn btn-warning">提交给主管重置</button>
+                        </p><br><br>
+                        <div class="modal-footer">
+                            <p class="text-center">
+                                <button type="button" class="btn btn-warning" onClick="lists(2);">注册账号</button>
+                                <button type="button" class="btn btn-default" onClick="lists(6);">已有账号</button>
+                                <button type="button" class="btn btn-primary" onClick="lists(3);">忘记密码</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="bottom" style="color: white;">
+			湖北东风世星汽车零部件股份有限公司 Copyright © 2023 ALL RIGHTS RESERVED.
+		</div>
+	</div>
+    <script src="__PUBLIC__/static/layui/layui.all.js"></script>
+    <script type="text/javascript">
+        //$('#myModal').modal('show');
+        $('#myModal').modal('hide');
+        
+
+    </script>
+</body>
+
+</html>

@@ -1,32 +1,34 @@
 <?php
-declare (strict_types = 1);
-
 namespace app;
-
 use think\App;
+use think\exception\HttpResponseException;
+use think\facade\View;
 use think\facade\Db;
 use think\facade\Config;
 use think\facade\Request;
-use think\exception\HttpResponseException;
-/**
- * 控制器基础类
- */
-abstract class BaseController
-{
+use think\facade\Session;
+use think\facade\Cookie;
 
-     public function __construct()
-     {
-    //网站配置信息     
+//use think\Response;
+
+class BaseController
+{
+    
+
+    public function __construct()
+    {
+        //前后台通用的方法写在这里
+        //网站配置信息     
         config(setting(),'config');//dump(config());exit;
         //View::assign('web_config', $config);
         //记住密码功能要用到
         if (!Config::get('app.cookie_salt')) {
             $this->error('请配置COOKIE_SALT信息');
         }
-    }
-     //
+     }
+    //
     // 以下为新增，为了使用旧版的 success error redirect 跳转  start
-   //
+    //
     
     /**
      * 操作成功跳转的快捷方法

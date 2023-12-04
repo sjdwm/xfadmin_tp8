@@ -17,8 +17,15 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
 $http = (new App())->http;
-
-$response = $http->run();
+//隐藏默认应用名称home,以home为首页
+$_amain = 'home';
+$_aother = 'admin|api|Admin|ADMIN';//这里是除了home以外的所有其他应用(区分大小写)
+if(preg_match('/^\/('.$_aother.')\/?/',$_SERVER['REQUEST_URI'])){
+    $response = $http->run();
+}else{
+    $response = $http->name($_amain)->run();
+}
+//$response = $http->run();
 // 判断是否安装
 if (!is_file(app()->getRootPath() . 'public/Install/install.lock')) {
     header("location:/Install/index.php");
