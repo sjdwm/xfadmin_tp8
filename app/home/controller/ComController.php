@@ -2,7 +2,7 @@
 
 namespace app\home\controller;
 use app\BaseController;
-use think\exception\HttpResponseException;
+//use think\exception\HttpResponseException;
 use think\facade\View;
 use think\facade\Db;
 use think\facade\Config;
@@ -37,18 +37,17 @@ class ComController extends BaseController
            
         }
         //写入登录日志
-        if(session('user.date') != date('Y-m-d',time())){
+        /*if(session('user.date') != date('Y-m-d',time())){
             userLog('前台登录成功(免登录的),用户名:'.session('user.username'),1);
             session('user.date',date('Y-m-d',time()));
-        }
-        userLogin();//用户访问日志
+        }*/
+        userLogin();//用户访问url日志
         $uid = session('user.id');
         //查看用户是否有修改密码,没有修改就提示修改,默认:123456
         $pwd = Db::name('users')->where(array('id' => $uid))->value('password');
         if($pwd=='d827a589220b65660ef68ae105e55a81'){
             View::assign('repwd',1);
-        }
-       
+        }       
         $UID = $this->USER['uid'];
         //$prefix = Config::get('database.connections.mysql.prefix');
         //$userinfo = Db::query("SELECT * FROM {$prefix}auth_group g left join {$prefix}auth_group_access a on g.id=a.group_id where a.uid=$UID");
@@ -93,6 +92,20 @@ class ComController extends BaseController
 
         parent::__construct();
     }
+    //不存在的方法访问404
+    public function __call($method, $args){
+
+        header( " HTTP/1.0  404  Not Found" );
+        $nav[0] = array('id'=>0,'pid'=>0,'title'=>'首页Home','name'=>'Index/index','url'=>'/');
+        $nav[1] = array('id'=>1,'pid'=>0,'title'=>'用户登录Login','name'=>'Publicc/login','url'=>'/Publicc/login');
+        //$nav[2] = array('id'=>2,'pid'=>0,'title'=>'用户注册Reg','name'=>'Public/reg','url'=>'/Public/reg');
+        $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/Publicc/help');
+       
+        View::assign('cate', $nav);//导航
+        return View::fetch('Error/index');
+
+    }
+    //登录状态验证
     public function check_login(){        
         $flag = false;
         $salt = Config::get('app.cookie_salt');
@@ -119,18 +132,7 @@ class ComController extends BaseController
         }
         return $flag;
     }
-    public function _empty(){
-
-        header( " HTTP/1.0  404  Not Found" );
-        $nav[0] = array('id'=>0,'pid'=>0,'title'=>'首页Home','name'=>'Index/index','url'=>'/');
-        $nav[1] = array('id'=>1,'pid'=>0,'title'=>'用户登录Login','name'=>'Publicc/login','url'=>'/Publicc/login');
-        $nav[2] = array('id'=>2,'pid'=>0,'title'=>'用户注册Reg','name'=>'Publicc/reg','url'=>'/Publicc/reg');
-        $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/Publicc/help');
-       
-        View::assign('cate', $nav);//导航
-        return View::fetch('Error/index');
-
-    }
+    
     
 
 }

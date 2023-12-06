@@ -1,0 +1,66 @@
+  <div class="edit_pass">
+   <div  style="width: 600px;margin: 0px auto;">
+    <div>
+      <div class="layui-form" lay-filter="">
+        <div class="layui-form-item psd_now" style="padding-top: 100px;margin-left: 80px;padding-top: 140px;">
+          <label class="layui-form-label" style="width: 120px;">当前密码</label>
+          <div class="layui-input-inline">
+            <input id="p1" type="password" name="oldPassword" lay-verify="required" lay-vertype="tips" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item psd_new" style="margin-left: 80px;">
+          <label class="layui-form-label" style="width: 120px;">新密码</label>
+          <div class="layui-input-inline">
+            <input id="p2" type="password" name="password" lay-verify="pass" lay-vertype="tips" autocomplete="off" id="LAY_password" class="layui-input">
+          </div>
+          <div class="layui-form-mid">6到16个字符</div>
+        </div>
+        <div class="layui-form-item psd_ck" style="margin-left: 80px;">
+          <label class="layui-form-label" style="width: 120px;">确认新密码</label>
+          <div class="layui-input-inline">
+            <input id="p3" type="password" name="repassword" lay-verify="repass" lay-vertype="tips" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item psd_btn" style="margin-left:100px">
+          <div class="layui-input-block" style="margin-left: 150px;">
+            <button onClick="editpwd();" class="layui-btn" lay-submit="" lay-filter="setmypass">确认修改</button>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+  </div>
+<script>
+function editpwd(){
+      var p1 = $('#p1').val();
+      var p2 = $('#p2').val();
+      var p3 = $('#p3').val();
+      //console.log(a);
+      $.ajax({
+        url:"{:url('editpwd')}",
+        type:'get',
+        data:{p1:p1,p2:p2,p3:p3},
+        success:function(va){
+        
+          if(va==2){
+            layer.msg('修改成功', {icon: 1});
+          }else if(va==1){
+            layer.msg('原密码不对', {icon: 5});
+          }else if(va==0){
+            layer.msg('两次新密码不对', {icon: 5});
+          }else if(va==3){
+            layer.msg('新密码长度不对', {icon: 5});
+          }
+           if(va['info']=='您没有权限访问'){
+                //layer.msg(data['info'], {icon: 4});
+                layer.alert(data['info'], {
+                  icon: 4,
+                  skin: 'layer-ext-moon'
+                })
+             }
+        }
+    });     
+
+    }
+</script>
+

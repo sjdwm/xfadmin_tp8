@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="jd.she">
+	<meta name="generator" content="jd.she">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>行事历 - {$Think.config.config.sitename}</title>
+    {include file="Publicc:head"/}
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/fullcalendar/css/fullcalendar.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/fullcalendar/css/fancybox.css">
+    <style type="text/css">
+#calendar{width:960px; margin:20px auto 10px auto}
+.fancy{width:450px; height:auto}
+.fancy h3{height:30px; line-height:30px; border-bottom:1px solid #d3d3d3; font-size:14px}
+.fancy form{padding:10px}
+.fancy p{height:28px; line-height:28px; padding:4px; color:#999}
+.input{height:20px; line-height:20px; padding:2px; border:1px solid #d3d3d3; width:100px}
+.btn{padding:5px 12px;-webkit-border-radius: 3px;-moz-border-radius:3px; cursor:pointer;}
+.btn_ok{background: #360;border: 1px solid #390;color:#fff}
+.btn_cancel{background:#f0f0f0;border: 1px solid #d3d3d3; color:#666 }
+.btn_del{background:#f90;border: 1px solid #f80; color:#fff }
+.sub_btn{height:32px; line-height:32px; padding-top:6px; border-top:1px solid #f0f0f0; text-align:right; position:relative}
+.sub_btn .del{position:absolute; left:2px}
+#ui-datepicker-div{width: 213px;}
+#fancybox-outer {
+    position: relative;
+    width: 106%;
+    height: 122%;
+    background: #FFF;
+}
+.holiday{color:red;font-weight:bold;}
+.fc-grid .fc-day-number{padding: 0 2px; position:relative;float: none;} 
+.fc-grid .fc-day-number span.solarday{float:right;color:#999}     
+.fc-grid .fc-day-number span.holiday{position:absolute; left:40%}
+.fc-event{color: #000;text-shadow: 0 -0px 0 rgba(0, 0, 0, 0);}
+</style>
+<script src='__PUBLIC__/static/fullcalendar/js/jquery-ui.js'></script>
+<script src='__PUBLIC__/static/fullcalendar/js/fullcalendar.js'></script>
+<script src='__PUBLIC__/static/fullcalendar/js/jquery.fancybox-1.3.1.pack.js'></script>
+<script type="text/javascript">
+$(function() {
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+        events: "{:url('showrili',array('cid'=>1,'type'=>1))}"
+        
+    });
+    
+});
+
+</script>
+</head>
+<body>
+<div id="sunfw-wrapper" class="sunfw-content ">
+<!--top1 -->
+
+<!--/top1 -->
+<!--top2 -->
+ {include file="Publicc:headernav"/}
+
+<!--/top2 -->
+<!--top3 -->
+<!--/top3 -->
+<!--top4 -->
+
+<!--/top4 -->
+<!--top5 -->
+
+<div id="sunfw_section_component" class="sunfw-section ">
+<div class="container">
+<div id="row_row-6" class="row  sunfw-flex-component">
+    <div id="column_column-10" class="col-xs-12 col-sm-12 col-md-9 col-lg-9  visible-lg visible-md visible-sm visible-xs flex-md-unordered">
+<br>
+ <!-- 循环文章列表开始 -->
+  <div id="b-content" class="container">
+  <div class="row" style="margin-right: 0px;">
+   <!-- 左侧文章开始 -->
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="row b-article">
+                <h1 class="col-xs-12 col-md-12 col-lg-12 b-title">{$conter['title']}</h1>
+                <div class="col-xs-12 col-md-12 col-lg-12">
+              
+                </div>
+                <div class="col-xs-12 col-md-12 col-lg-12 b-content-word">
+                  <div id="main" style="width:1060px">
+               <h2 class="top_title"><a href="">行事历</a></h2>
+               <div id='calendar'></div>
+            </div>
+                    
+                <br><br>
+                </div>
+            </div>
+            
+        </div>
+        <!-- 左侧文章结束 -->
+    <!-- 通用右部区域开始 -->
+
+<!-- 通用右部区域结束 -->
+    </div>
+    </div>
+    <!-- 循环文章列表结束 -->
+ 
+    </div></div></div></div>
+<!--/top5 -->
+
+<!--top6-->
+
+<!--/top6-->
+
+<!--top7 -->
+{include file="Publicc:footerjs"/}
+{include file="Publicc:footer"/}
+<!--/top7 -->
+
+</div>
+</body>
+</html>

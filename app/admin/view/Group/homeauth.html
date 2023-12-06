@@ -55,7 +55,7 @@
                                             <td class="center">
                                                 <input class="ids" type="checkbox" name="ids[]" value="{$val['id']}">
                                             </td>
-                                            <td>{if condition="$val.pid eq '0'"}<i id="d{$val['id']}" class="menu-icon fa fa-angle-right biao"></i>{/if} &nbsp;{$val['_name']}  {$val['title']}</td>
+                                            <td>{if condition="$val.pid eq '0'"}<i id="d{$val['id']}" class="menu-icon fa fa-angle-right biao"></i>{/if} &nbsp;{$val['_name']|raw}  {$val['title']}</td>
                                             <td>{$val['url']}</td>
                                             <td><i class="{$val.icon}"></i></td>
                                             <td class="center">

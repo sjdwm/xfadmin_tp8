@@ -14,6 +14,8 @@ return [
     'default_app'      => 'home',
     // 是否启用路由
     'with_route'       => true,
+    // 开启应用快速访问(Error控制器要开启才管用) 
+    'app_express' => true,
     // 默认时区
     'default_timezone' => 'Asia/Shanghai',
 

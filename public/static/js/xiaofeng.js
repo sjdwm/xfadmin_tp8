@@ -100,3 +100,24 @@ function up_img(url,js_id,layui_size=3048,ys_size=2){
     }));
  }
 //上传图片压缩-结束
+//手机号验证
+    function validatemobile(mobile){
+        if(mobile.length==0){
+          layer.msg('请输入手机号码！', {icon: 5});
+           document.form1.mobile.focus();
+           return false;
+        }
+
+        if(mobile.length!=11){
+            layer.msg('请输入有效的手机号码！', {icon: 5});
+            document.form1.mobile.focus();
+            return false;
+        }
+
+    var myreg = /^(((1[3-9]{1}))+\d{9})$/;
+    if(!myreg.test(mobile)){
+      layer.msg('请输入有效的手机号码！', {icon: 5});
+        document.form1.mobile.focus();
+        return false;
+    }
+}

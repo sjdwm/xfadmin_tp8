@@ -19,6 +19,16 @@ return [
             // 可见性
             'visibility' => 'public',
         ],
+        'img_user' => [
+            // 磁盘类型
+            'type'       => 'local',
+            // 磁盘路径
+            'root'       => app()->getRootPath() . 'public/upload/img_user',
+            // 磁盘路径对应的外部URL路径
+            'url'        => '/upload/img_user',
+            // 可见性
+            'visibility' => 'public',
+        ],
         'link_img' => [
             // 磁盘类型
             'type'       => 'local',

@@ -23,13 +23,13 @@
 						<ul class="drop-down">
 							<!-- 2 -->{volist name="vo['_data']" id="v"}
 							<li  class="drop"><a 
-								 {if condition="$vo.id eq '83'"}target="_blank"{/if} class=""
+								 {if condition="in_array($v.id,array(87,88))"}target="_blank"{/if} class=""
 												href="{$v.url}">{$_SESSION['user']['lang']==0?$v['title']:$v['ename']}<?php if(!empty($v['_data'])): ?><span
 													class="caret"></span><?php endif; ?></a>
 											<?php if(!empty($v['_data'])): ?>
 								<ul class="drop-down level3">
 									<!-- 3 -->{volist name="v['_data']" id="v2"}
-									<li><a href="{$v2.url}">{$_SESSION['user']['lang']==0?$v2['title']:$v2['ename']}<?php if(!empty($v2['_data'])): ?><span
+									<li><a  href="{$v2.url}">{$_SESSION['user']['lang']==0?$v2['title']:$v2['ename']}<?php if(!empty($v2['_data'])): ?><span
 																class="caret"></span><?php endif; ?></a>
 														<?php if(!empty($v2['_data'])): ?>
 														<ul class="drop-down level4">

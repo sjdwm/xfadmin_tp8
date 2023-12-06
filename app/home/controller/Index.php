@@ -12,7 +12,7 @@ class Index extends ComController
     public function index()
     {
 
-
+        //echo $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         return View::fetch();
 
         //app('app\api\controller\erp')->login('erpapi','shejiadong2030');//账号管理API专用账号

@@ -1,0 +1,72 @@
+      body {
+            margin: 0px;
+            padding: 0px;
+            background: rgb(245, 248, 255);
+        }
+
+        /* 头部导航 */
+        .dropdown-menu{
+            border: none;
+        }
+        .dropdown-menu-1 {
+            display: none;
+        }
+
+        .dropdown-menu-1 a {
+            text-decoration: none;
+            color: #797979;
+        }
+
+        .dropdown-menu-1 li {
+            line-height: 40px;
+        }
+
+        .dropdown-menu li:hover .dropdown-menu-1 {
+            display: block;
+            position: absolute;
+            left: 201px;
+            top: 0;
+            width: 240px;
+            height: 350px;
+            background: white;
+            text-align: left;
+
+        }
+
+        .dropdown-menu li {
+            width: 200px !important;
+        }
+        .dropdown-menu li a {
+            font-size: 16px;
+        }
+        .center-box a {
+            text-decoration: none;
+        }
+
+        .dropdown-menu-1 li {
+            border-bottom: 1px solid #e3e3e3;
+            margin-left: -20px;
+        }
+
+        .navbar-nav a:hover {
+            color: rgb(250, 0, 129);
+        }
+
+        .dropdown-menu li:hover {
+            border-bottom: 1px solid rgb(250, 0, 129);
+        }
+
+        .dropdown-menu li a:hover {
+            color: rgb(250, 0, 129);
+        }
+
+        .navbar-nav li {
+            border-bottom: 1px solid #e3e3e3;
+        }
+        .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover{
+            background-color: white;
+            color: rgb(250, 0, 129);
+        }
+        .navbar-inverse .navbar-nav>li>a:hover{
+            color: rgb(250, 0, 129);
+        }

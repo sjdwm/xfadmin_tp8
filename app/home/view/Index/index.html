@@ -9,9 +9,9 @@
     {include file="Publicc:head" /}
     <script type="text/javascript">
        //手机版跳转
-            if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+           /* if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
                     window.location.href = "{:url('Index/index',array('type'=>'phone'))}";
-                }
+                }*/
 
     </script>
     <style>
@@ -82,12 +82,12 @@
             <div class="container-fluid">
                 <div class="row" style="width: 100%;margin: 0 auto;margin-top: 40px;">
                     <div class="col-md-8" style="width: 68%;height: 200px;border-radius: 10px;background: rgba(255, 255, 255,0.1);margin-left: 10px;">
-                        <select onchange="langs(this);" name="" id="" style="float: right;margin-top: 40px;margin-right: 10px;width: 110px;background-color: rgba(255, 255, 255,0.1);color:rgb(250,0,129);" class="form-control">
+                        <!-- <select onchange="langs(this);" name="" id="" style="float: right;margin-top: 40px;margin-right: 10px;width: 110px;background-color: rgba(255, 255, 255,0.1);color:rgb(250,0,129);" class="form-control">
                             <option value="1" {if condition="$Think.session.user.lang eq 1"}selected="selected"{/if}>English</option>
                             <option value="0" {if condition="$Think.session.user.lang eq 0"}selected="selected"{/if}>中文简体</option>
-                        </select>
+                        </select> -->
                         <div  style="color: white;text-align: center;width: 100%;">
-                         <h2 style="color: white;">Hi~ {$name}</h2><br> 
+                         <h2 style="color: white;">Hi~ {$Request.session.user.username}</h2><br> 
                          <p style="color: white;font-size: 21px;">Welcome to the  EIP system !</p><br>
                       
                          <div class="form-group has-success has-feedback">
@@ -123,9 +123,9 @@
                     <div class="col-md-4 right" style="width: 30%;height: 200px;margin-left: 10px;border-radius: 10px;">
                         <div class="layui-carousel" id="test1" >
                             <div carousel-item  >
-                              <div>   <img src="__PUBLIC__/Home/image/banner-03.png" style="width: 100%;height: 100%"   alt=""></div>
-                              <div>   <img src="__PUBLIC__/Home/image/index/2.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
-                              <div>   <img src="__PUBLIC__/Home/image/index/3.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
+                              <div>   <img src="__PUBLIC__/Home/image/1.jpg" style="width: 100%;height: 100%"   alt=""></div>
+                              <div>   <img src="__PUBLIC__/Home/image/2.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
+                              <div>   <img src="__PUBLIC__/Home/image/3.jpg"   style="width: 100%;height: 100%;"   alt=""></div>
                             </div>
                           </div>
                     </div>
@@ -136,13 +136,13 @@
                     <!-- hr部分 -->
                     <div class="col-md-2" style="height: 400px;border-right: 2px dashed rgb(250,0,129);">
                         <div  style="width: 100%;height: 50%;text-align: center;color: white;display: flex;flex-direction: column;align-items: center;position: relative;">
-                            <a href="{:url('Admin/System/document_no_hr')}" style="text-decoration: none;color: white;">
+                            <a href="{$Think.config.app.erp_url}" target="_blank" style="text-decoration: none;color: white;">
                                 <img src="__PUBLIC__/Home/image/index/icon/人事信息管理.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
-                                <span>  HR管理中心</span></a>
+                                <span>  智邦ERP</span></a>
                         </div>
 
                         <div style="width: 100%;height: 50%;text-align: center;color: white;display: flex;flex-direction: column;align-items: center;position: relative;">
-                            <a href="{:url('HrReport/year_show')}" style="text-decoration: none;color: white;">
+                            <a href="{:url('/Admin/Index/index')}" style="text-decoration: none;color: white;">
                                 <img src="__PUBLIC__/Home/image/index/icon/管理员_角色管理.png" style="width: 60px;position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
                             <span>  管理者平台</span>
                             </a>
@@ -214,7 +214,7 @@
                         </div>
     
                         <div  class="col-md-2 col-xs-2" style="display: inline-block;width:20%;height:50%;text-align: center;color: white;position: relative;">
-                           <a style="color: white;" href="{:url('Public/logout')}" target="_blank">
+                           <a style="color: white;" href="{:url('Publicc/logout')}" target="_blank">
                             <img src="__PUBLIC__/Home/image/index/icon/退出登录 (1).png" style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);" alt=""><br>
                             <span>  退出登录</span>
                            </a>
