@@ -289,7 +289,7 @@ class Member extends ComController
         // $this->ajaxReturn($rule);exit;
         $mid = input('post.mid');
         $pid = input('post.gid');
-        $rule = Db::name('company')->field('id,pid,cname,ename')->where(array('status'=>1,'islink'=>1))->order('o asc')->select();
+        $rule = Db::name('company')->field('id,pid,cname,ename')->where(array('status'=>1,'islink'=>1))->order('o asc')->select()->toArray();
         $tree = new Tree($rule);
        
         //判断用户语言

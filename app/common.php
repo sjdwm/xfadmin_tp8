@@ -185,6 +185,13 @@ function setting($k = 'all')
     }
     return $data;
 }
+//随机生成颜色
+function randcolor(){
+    $colors = array('#00FFFF','#7FFFD4','#F5F5DC','#90EE90','#E6E6FA','#FFF0F5','#ADFF2F','#EDCBD3','#E0FFFF','#FAFAD2','#90EE90','#FFB6C1','#FFFFE0','#FAF0E6','#FFE4E1','#FFCCCC','#FFFFCC','#FFFF99','#FAC9E8','#CCFF99','#CCFFFF','#FF99FF','#99FF99','#FFCC66','#FFCC66','#CCFFCC');
+    $key = array_rand($colors);
+    $color = $colors[$key];
+    return $color;
+}
 /**
  * 增加日志
  * @param $log
