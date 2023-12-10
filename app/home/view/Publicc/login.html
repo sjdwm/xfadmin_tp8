@@ -249,7 +249,7 @@
                  <br>
                         <div class="control-label"  style="color: white;text-align: center;">
                             <label title="Remember password"><input  id="remember" type="checkbox" name="remember" class="inputbox" style="vertical-align: top;">记住我</label>　　　　　　　　
-                            <p style="display: inline-block;"><a class="a" style="color: #e3e3e3;font-size: 12px;" target="_blank" href="{$Think.config.app.erp_url}">登录ERP系统</a></p>
+                            <!-- <p style="display: inline-block;"><a class="a" style="color: #e3e3e3;font-size: 12px;" target="_blank" href="{$Think.config.app.erp_url}">登录ERP系统</a></p> -->
                         </div>
                   
                     <input type="hidden" name="return" value="aHR0cDovL21heGltLWVpcC5jb20v">
@@ -309,10 +309,10 @@
     <br><br><br><br><br><br><br><br><br>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="bottom" style="color: white;">
-			湖北东风世星汽车零部件股份有限公司 Copyright © 2023 ALL RIGHTS RESERVED.
+			{$Think.config.config.sitename} Copyright © 2023 ALL RIGHTS RESERVED.
 		</div>
 	</div>
-    <script src="__PUBLIC__/static/layui/layui.all.js"></script>
+
     <script type="text/javascript">
         //$('#myModal').modal('show');
         $('#myModal').modal('hide');
