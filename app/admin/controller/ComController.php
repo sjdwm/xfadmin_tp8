@@ -54,7 +54,7 @@ class ComController extends BaseController
         $sname = $module_name.'/'.request()->controller() . '/' . $current_action_name;
         //$current = Db::query("SELECT s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle FROM {$prefix}auth_rule s left join {$prefix}auth_rule p on p.id=s.pid where s.name='" . $module_name.'/'.request()->controller() . '/' . $current_action_name . "'");
         $current = Db::name("auth_rule")->alias('s')->leftJoin('auth_rule p','p.id=s.pid')->where('s.name',$sname)->field('s.id,s.title,s.name,s.tips,s.pid,p.pid as ppid,p.title as ptitle')->select()->toArray();
-        View::assign('current', $current[0]);
+        View::assign('current', @$current[0]);
 
 
         $menu_access_id = $userinfo[0]['rules'];

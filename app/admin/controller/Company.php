@@ -72,6 +72,7 @@ class Company extends ComController
         $category = $tree->get_tree(0, $str, $pid);
         //$option = $this->getMenu($option);
         View::assign('option', $category);
+        View::assign('currentmenu',array('id'=>null,'pid'=>null,'cname'=>null,'ename'=>null,'email'=>null,'address'=>null,'phone'=>null,'islink'=>null,'o'=>null,'tips'=>null));
         return View::fetch();
     }
     //更新

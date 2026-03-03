@@ -102,12 +102,20 @@ class Page{
         $down_page = ($down_row <= $this->totalPages) ? '<a class="next" href="' . $this->url($down_row) . '">' . $this->config['next'] . '</a>' : '<a class="next" >'. $this->config['next'] .'</a>';
 
         $header = $this->config['header'];
+        }else{
+            $up_page = null;
+            $down_row = null;
+            $down_row = null;
+            $down_page = null;
+            $header = null;
         }
         //第一页
         //$the_first = '';
         //if($this->totalPages > $this->rollPage && ($this->nowPage - $now_cool_page) >= 1){
         if($this->totalPages >1){
             $the_first = '<a class="first" href="' . $this->url(1) . '">' . $this->config['first'] . '</a>';
+        }else{
+            $the_first = '';
         }
         
         //}
@@ -117,6 +125,8 @@ class Page{
         //if($this->totalPages > $this->rollPage && ($this->nowPage + $now_cool_page) < $this->totalPages){
         if($this->totalPages >1){
             $the_end = '<a class="end" href="' . $this->url($this->totalPages) . '">' . $this->config['last'] . '</a>';
+        }else{
+            $the_end = '';
         }
         //}
 

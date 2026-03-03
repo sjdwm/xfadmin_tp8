@@ -19,7 +19,7 @@ class Variable extends ComController
 
     public function add()
     {
-
+        View::assign('var', array('k'=>null,'v'=>null,'name'=>null));
         return View::fetch('form');
         
     }

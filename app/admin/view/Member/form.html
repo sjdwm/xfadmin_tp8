@@ -83,28 +83,14 @@
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-10"> 用户组 </label>
                                 <div class="col-sm-9" style="padding-top: 6px;">
                                     {if condition="$member['id'] eq 1"}
-                                        <!-- <volist name="usergroup" id="val">
-                                            <if condition="$val['id'] eq $member['group_id']">
-                                                <input type="text" class="col-xs-10 col-sm-5" value="{$val['title']}"
-                                                       readonly>
-                                                <input type="hidden" name="group_id" id="group_id"
-                                                       class="col-xs-10 col-sm-5" value="{$member['group_id']}">
-                                            </if>
-                                        </volist> -->
+                                       
                                          {foreach name="usergroup" item="val"}<label for="in{$val.id}">
                                         
                                         <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" {in name="val['id']" value="$usergroup_access"} checked="checked" {/in} ><span class="lbl"> {$val['title']}</span></label>
                                         &emsp;                    
                                         {/foreach}
                                         {else/}
-                                        <!-- <select id="group_id" name="group_id" class="rcol-xs-10 col-sm-5">
-                                            <volist name="usergroup" id="val">
-                                                <option value="{$val['id']}"
-                                                <if condition="$val['id'] eq $member['group_id']">selected="selected"
-                                                </if>
-                                                >{$val['title']}</option>
-                                            </volist>
-                                        </select> -->
+                                       
                                         {foreach name="usergroup" item="val"}<label for="in{$val.id}">
                                         
                                         <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" {in name="val['id']" value="$usergroup_access"} checked="checked" {/in} ><span class="lbl"> {$val['title']}</span></label>

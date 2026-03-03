@@ -39,12 +39,9 @@
           <td>{:date("Y-m-d H:i:s",strtotime("+0 hours",$vo['reg_time']))}</td>
           <td>
             <a href="{:url('edit',array('uid'=>$vo['id']))}" class="bbtn bbtn-primary">修改</a>
-            <!-- <span data-toggle="modal" data-target="#myModalw" class="btn btn-primary" onClick="edituser({$vo.id})">修改</span> -->
-            <!-- <span data-toggle="modal" data-target="#modalshow" class="bbtn bbtn-success" onClick="showuser({$vo.id})">查看</span> -->
             <a href="{:url('show', array('uid'=>$vo['id']))}" class="bbtn bbtn-success">查看</a>
-            <!-- <a href="{:url('pashow', array('id'=>$vo['u_id']))}" class="btn btn-info">密码</a> -->
             <span data-toggle="modal" data-target="#myModalp" class="bbtn bbtn-info" onClick="edituserpwd({$vo.id},'{$vo.username}')">密码</span>
-            <!-- <a href="{:url('delete', array('id'=>$vo['u_id']))}" class="btn btn-danger">删除</a> -->
+            <!-- <a href="{:url('delete', array('id'=>$vo['id']))}" class="btn btn-danger">删除</a> -->
             <!-- <span  class="btn btn-danger" onClick="dell({$vo.id},this)">删除</span> -->
           </td>
         </tr>

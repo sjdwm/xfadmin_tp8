@@ -102,6 +102,10 @@ class AjaxPage{
         $down_page = ($down_row <= $this->totalPages) ? '<li id="example1_next" class="paginate_button next"><a class="next" data-p="'.$down_row.'" href="javascript:void(0)">' . $this->config['next'] . '</a></li>' : '';
      
         $header = $this->config['header'];
+        }else{
+            $header = null;
+            $up_page = null;
+            $down_page = null;
         }
         //第一页
         $the_first = '';

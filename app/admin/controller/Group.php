@@ -65,6 +65,7 @@ class Group extends ComController
         View::assign('list',$list);
         View::assign('show',$show);
         View::assign('group',$group);
+        View::assign('count',$count);
         return View::fetch();
     }
     //添加用户到组
