@@ -14,7 +14,8 @@ use think\facade\Cache;
 class Login extends ComController{
     public function index()
     {
-
+        //网站配置信息     
+        config(setting(),'config');
         $uid = Session::get('uid');
         if ($uid>0) {
             $this->error('您已经登录,正在跳转到主页', url("index/index"));

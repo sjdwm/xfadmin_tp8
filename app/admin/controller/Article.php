@@ -19,6 +19,7 @@ class Article extends ComController
         $str = "<option value=\$id \$selected>\$spacer\$name</option>"; //生成的形式
         $category = $tree->get_tree(0, $str, 0);
         View::assign('category', $category);//导航
+        View::assign('article', array('aid'=>null,'cid'=>null,'title'=>null,'keywords'=>null,'description'=>null,'thumbnail'=>null,'is_show'=>null,'is_top'=>null,'content'=>null,'is_s'=>null));
         return View::fetch('form');
     }
 

@@ -15,13 +15,8 @@ class Update extends ComController
     {
 
 
-        $model = Db::name('devlog');
-        $count = $model->count();        
-        $page = new Page($count,8);
-        $data = $model->order('id desc')->limit($page->firstRow , $page->listRows)->select();
-        $show = $page->show();
-        View::assign('page', $show);
-        View::assign('firstRow',$page->firstRow);
+        $model = Db::name('devlog');        
+        $data = $model->order('id desc')->select();        
         View::assign('list',$data); 
         View::assign('nav', array('setting', 'devlog'));//导航
         return View::fetch();

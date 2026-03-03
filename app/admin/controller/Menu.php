@@ -101,8 +101,9 @@ class Menu extends ComController
         $option = Db::name('auth_rule')->where(array('cate'=>1))->order('o ASC')->select()->toArray();
         $tree = new Tree($option);
         $str = "<option value=\$id \$selected>\$spacer\$title</option>"; //生成的形式
-        $option = $tree->get_tree(0, $str, $currentmenu['pid']);
+        $option = $tree->get_tree(0, $str, 0);
         //$option = $this->getMenu($option);
+        View::assign('currentmenu', array('id'=>0,'pid'=>null,'title'=>null,'name'=>null,'icon'=>null,'islink'=>null,'o'=>null,'tips'=>null));
         View::assign('option', $option);
         return View::fetch('form');
     }

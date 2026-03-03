@@ -27,6 +27,7 @@ class Index extends ComController
         View::assign('mysql', $mysql[0]['mysql']);
         View::assign('users',$count);
         View::assign('user_line',$arr);
+        View::assign('liuyan',1);
         return View::fetch();
 
     }

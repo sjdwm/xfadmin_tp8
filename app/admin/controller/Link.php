@@ -21,7 +21,8 @@ class Link extends ComController
     //新增链接
     public function add()
     {
-
+        View::assign('link', array('id'=>null,'title'=>null,'url'=>null,'o'=>null));
+        View::assign('article', array('thumbnail'=>null));
         return View::fetch('form');
     }
 

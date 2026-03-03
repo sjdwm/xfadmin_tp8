@@ -275,6 +275,10 @@ class Member extends ComController
         $rule = Db::name('company')->field('id,pid,cname')->where(array('status'=>1,'pid'=>0))->order('o asc')->select();
         View::assign('rule', $rule);
         View::assign('usergroup', $usergroup);
+        View::assign('member',array('id'=>null,'username'=>null,'name'=>null,'ename'=>null,'password'=>null,'username'=>null,'mid'=>null,'post'=>null,'job'=>null,'lang'=>null,'sex'=>null,'birthday'=>null,'telphone'=>null,'phone'=>null,'email'=>null,'gid'=>null));
+        View::assign('val',array('id'=>null,'title'=>null,'name'=>null,'ename'=>null,'password'=>null,'username'=>null));
+        View::assign('usergroup_access',array('id'=>null,'title'=>null));
+        View::assign('gidname',null);
         return View::fetch('form');
     }
     //Ajax获取部门信息

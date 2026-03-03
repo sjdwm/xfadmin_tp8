@@ -242,7 +242,7 @@ class Group extends ComController
         $hrule = Data::channelLevel($hrule,0,'&nbsp;','id');
         View::assign('rule', $rule);
         View::assign('hrule', $hrule);
-        View::assign('group', array('rules'=>array()));
+        View::assign('group', array('rules'=>array(),'title'=>null,'id'=>null,'status'=>null));
         return View::fetch('form');
     }
 
@@ -313,6 +313,7 @@ class Group extends ComController
         $category = $tree->get_tree(0, $str, $pid);
         //$option = $this->getMenu($option);
         View::assign('option', $category);
+        View::assign('currentmenu', array('id'=>null,'pid'=>null,'title'=>null,'ename'=>null,'name'=>null,'icon'=>null,'islink'=>null,'o'=>null,'tips'=>null));
         return View::fetch();
     }
     //更新

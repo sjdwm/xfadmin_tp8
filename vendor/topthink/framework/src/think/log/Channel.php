@@ -2,13 +2,13 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2025 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace think\log;
 
@@ -26,15 +26,15 @@ class Channel implements LoggerInterface
 
     /**
      * 日志信息
-     * @var array
+     * @var array<LogRecord>
      */
-    protected $log = [];
+    protected array $log = [];
 
     /**
      * 关闭日志
      * @var bool
      */
-    protected $close = false;
+    protected bool $close = false;
 
     public function __construct(protected string $name, protected LogHandlerInterface $logger, protected array $allow, protected bool $lazy, protected Event $event)
     {
@@ -75,7 +75,7 @@ class Channel implements LoggerInterface
         if ($msg instanceof Stringable) {
             $msg = $msg->__toString();
         }
-        
+
         if (is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
@@ -85,10 +85,11 @@ class Channel implements LoggerInterface
             $msg = strtr($msg, $replace);
         }
 
-        if (!empty($msg) || 0 === $msg) {
-            $this->log[$type][] = $msg;
+        if (!empty($msg)) {
+            $record      = new LogRecord($type, $msg);
+            $this->log[] = $record;
             if ($this->event) {
-                $this->event->trigger(new LogRecord($type, $msg));
+                $this->event->trigger($record);
             }
         }
 
@@ -114,7 +115,7 @@ class Channel implements LoggerInterface
 
     /**
      * 获取日志信息
-     * @return array
+     * @return array<LogRecord>
      */
     public function getLog(): array
     {
@@ -129,29 +130,27 @@ class Channel implements LoggerInterface
     {
         $log = $this->log;
         if ($this->event) {
-            $event = new LogWrite($this->name, $log);
+            $event = new LogWrite($this->name, $this->log);
             $this->event->trigger($event);
             $log = $event->log;
         }
 
-        if ($this->logger->save($log)) {
-            $this->clear();
-            return true;
-        }
+        $this->logger->save($log);
+        $this->log = [];
 
-        return false;
+        return true;
     }
 
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed  $level
-     * @param string|Stringable  $message
-     * @param array  $context
+     * @param mixed             $level
+     * @param string|Stringable $message
+     * @param array             $context
      *
      * @return void
      */
-    public function log($level, string|Stringable $message, array $context = []): void
+    public function log($level, $message, array $context = []): void
     {
         $this->record($message, $level, $context);
     }

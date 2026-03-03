@@ -64,6 +64,7 @@ class Category extends ComController
         $category = $tree->get_tree(0, $str, $pid);
 
         View::assign('category', $category);
+        View::assign('currentcategory', array('id'=>null,'type'=>null,'name'=>null,'dir'=>null,'seotitle'=>null,'keywords'=>null,'show'=>null,'description'=>null,'content'=>null,'url'=>null,'cattemplate'=>null,'contemplate'=>null,'o'=>null));
         return View::fetch('form');
     }
 
