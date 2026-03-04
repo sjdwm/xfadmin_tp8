@@ -45,9 +45,17 @@ class Logs extends ComController
     public function user_log_list(){
         $log = Db::name("user_log");
         $rank = input('rank','0');
+        $name = input('name');
+        $ip = input('ip');
         $where = [];
         if($rank != '0'){
             $where[] = ['rank','=',$rank];
+        }
+        if($name != ''){
+            $where[] = ['name','=',$name];
+        }
+        if($ip != ''){
+            $where[] = ['ip','=',$ip];
         }
         $count = $log->where($where)->count();
         $Page = new AjaxPage($count,16);     
@@ -68,9 +76,24 @@ class Logs extends ComController
         $Ip = new IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
         $log = Db::name("user_login");
         $rank = input('rank','0');
+        $name = input('name');
+        $type = input('type');
+        $date = input('date');
         $where = [];
         if($rank != '0'){
             $where[] = ['rank','=',$rank];
+        }else{
+            $where[] = ['rank','=',1];
+        }
+        if($type == 1){
+            $where[] = ['name','=',$name];
+        }elseif($type == 2){
+            $where[] = ['ip','=',$name];
+        }elseif($type == 3){
+            $where[] = ['ip','=',$name];
+        }
+        if($date != ''){
+            $where[] = ['date','=',$date];
         }
         $count = $log->where($where)->count();
         $Page = new AjaxPage($count,16);

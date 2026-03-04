@@ -39,10 +39,23 @@
           <select name="s_id" id="box" onchange="lists()" style="margin-bottom: 8px;vertical-align: middle;">
             <option value="0" >选择分类</option>
             <option value="1" >访客日志</option>
+            <option value="2" >管理日志</option>
           
 
           
             </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <select name="type" id="type"  style="margin-bottom: 8px;vertical-align: middle;">
+            <option value="0" >选择搜索类型</option>
+            <option value="1" >账号</option>
+            <option value="2" >IP</option>
+            <option value="3" >浏览器标识</option>
+          
+
+          
+            </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" name="name" id="name" value="{:input('name')}" class="form-control">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="inline">日期</label>
+            <input type="text" name="date" value="{:input('date')}" id="time-3" readonly class="form-control">
             <button type="button" class="bbtn bbtn-info" style="width: 60px;min-height: 28px;margin-top: -5px;" onclick="lists()">筛选</button>
     </div>
   </nav>
@@ -87,13 +100,25 @@
         //默认订单里显示第一页
         lists(1);
       });
+    layui.use('table', function(){
+  var laydate = layui.laydate;
+
+    laydate.render({
+    elem: '#time-3',
+    type: 'date',
+    fullPanel: true // 2.8+
+  });
+  });
     //ajax订单分页-筛选
       function lists(page){
         var rank = $('#box').val();
+        var name = $('#name').val();
+        var type = $('#type').val();
+        var date = $('#time-3').val();
         $.ajax({
           url:"{:url('login_log_list')}", //+tab,
           type:'get',
-          data:{'rank':rank,'p':page}, 
+          data:{'name':name,'type':type,'date':date,'rank':rank,'p':page}, 
           success:function(data){
             $("#ajax_return").html('');
             $("#ajax_return").append(data);

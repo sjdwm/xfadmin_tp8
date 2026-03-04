@@ -45,10 +45,15 @@
             <option value="5" >用户修改密码</option>
             <option value="6" >Email账号登录</option>
             <option value="7" >新注册用户</option>
+            <option value="8" >账号开通审批</option>
       
 
           
             </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="inline">账号</label>
+            <input type="text" name="name" id="name" value="{:input('name')}" class="form-control">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="inline">IP地址</label>
+            <input type="text" name="ip" id="ip" value="{:input('ip')}" class="form-control">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="bbtn bbtn-info" style="width: 60px;min-height: 28px;margin-top: -5px;" onclick="lists()">筛选</button>
     </div>
   </nav>
@@ -92,11 +97,13 @@
     //ajax订单分页-筛选
       function lists(page){
         var rank = $('#box').val();
+        var name = $('#name').val();
+        var ip = $('#ip').val();
         $.ajax({
           //url:"__URL__/user_log_list/p/"+page, 
           url:"{:url('user_log_list')}", //+tab,
           type:'get',
-          data:{'rank':rank,'p':page}, 
+          data:{'name':name,'ip':ip,'rank':rank,'p':page}, 
           success:function(data){
             $("#ajax_return").html('');
             $("#ajax_return").append(data);
