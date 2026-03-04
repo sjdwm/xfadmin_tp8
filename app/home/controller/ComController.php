@@ -47,6 +47,8 @@ class ComController extends BaseController
         $pwd = Db::name('users')->where(array('id' => $uid))->value('password');
         if($pwd=='d827a589220b65660ef68ae105e55a81'){
             View::assign('repwd',1);
+        }else{
+            View::assign('repwd',1);
         }       
         $UID = $this->USER['uid'];
         //$prefix = Config::get('database.connections.mysql.prefix');

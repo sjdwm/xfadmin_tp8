@@ -17,6 +17,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
 $http = (new App())->http;
+//$http = (new App())->debug()->http;
 //隐藏默认应用名称home,以home为首页
 $_amain = 'home';
 $_aother = 'admin|api|Admin|ADMIN';//这里是除了home以外的所有其他应用(区分大小写)
