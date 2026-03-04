@@ -16,7 +16,7 @@ Databases.php      后台线上备份数据库
 Auth.php           后台Auth权限验证
 IpLocation.php     IP地址显示库UTFWry.dat
 Hashids.php        ID加数类
-##### 4、增加了引导安装,admin后台安装:localhost/install  安装完后可能需要手动修改数据账号信息,默认是root/root
+##### 4、增加了引导安装,admin后台安装:localhost/install  安装完后可能需要手动修改config/app.php数据库信息,默认是root/root
 ##### 5、后台登录地址localhost/admin  账号密码:admin/admin
 ##### 6、有的环境.htaccess URL重写方法以及遇到No input file specified的解决方法
 在Fastcgi模式下，php不支持rewrite的目标网址的PATH_INFO的解析，当我们的 ThinkPHP运行在URL_MODEL=2时，就会出现
