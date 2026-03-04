@@ -44,12 +44,15 @@ class Logs extends ComController
      */
     public function user_log_list(){
         $log = Db::name("user_log");
-        $rank['rank'] = input('rank','0');
-        if($rank['rank'] == '0'){unset($rank);}
-        $count = $log->where($rank)->count();
+        $rank = input('rank','0');
+        $where = [];
+        if($rank != '0'){
+            $where[] = ['rank','=',$rank];
+        }
+        $count = $log->where($where)->count();
         $Page = new AjaxPage($count,16);     
         $show = $Page->show();   
-        $list = $log->where($rank)->order('id desc')->limit($Page->firstRow,$Page->listRows)->select()->toArray();        
+        $list = $log->where($where)->order('id desc')->limit($Page->firstRow,$Page->listRows)->select()->toArray();        
         View::assign('list',$list);
         View::assign('show',$show);
         return View::fetch();
@@ -64,12 +67,15 @@ class Logs extends ComController
     public function login_log_list(){
         $Ip = new IpLocation('UTFWry.dat'); // 实例化类 参数表示IP地址库文件
         $log = Db::name("user_login");
-        $rank['rank'] = input('rank','0');
-        if($rank['rank'] == '0'){unset($rank);}
-        $count = $log->where($rank)->count();
+        $rank = input('rank','0');
+        $where = [];
+        if($rank != '0'){
+            $where[] = ['rank','=',$rank];
+        }
+        $count = $log->where($where)->count();
         $Page = new AjaxPage($count,16);
         $show = $Page->show();
-        $list = $log->where($rank)->order('id desc')->limit($Page->firstRow,$Page->listRows)->select()->toArray();
+        $list = $log->where($where)->order('id desc')->limit($Page->firstRow,$Page->listRows)->select()->toArray();
         //dump($Ip->getlocation('137.59.100.132'));exit;
         foreach ($list as $k => $v) {
             $list[$k]['weizhi']=$Ip->getlocation($v['ip']);
