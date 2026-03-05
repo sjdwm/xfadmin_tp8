@@ -7,7 +7,7 @@ ThinkPHP8 Admin后台模版
 
 ##### 1、增加公司管理模块,日志管理模块
 ##### 2、用户及组->后台权限=后台菜单,前台权限=前台菜单
-##### 3、ThinkPHP框架下增加的文件,TP8.14版本,要求PHP8+
+##### 3、ThinkPHP框架下增加的文件,TP8.14版本,要求PHP8.2+
 extend\fast目录下
 AjaxPage.php       Ajax分页
 Page.php           普通分页
