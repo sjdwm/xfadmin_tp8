@@ -1,0 +1,189 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/fullcalendar/css/jquery-ui.css">
+<div class="fancy">
+    <h3>新建事件</h3>
+    <form id="add_form" action="{:url('dorili',array('action'=>'add'))}" method="post">
+    <input type="hidden" name="cid" id="eventid" value="{:input('get.cid')}">
+    <input type="hidden" name="type" id="eventid" value="{:input('get.type')}">  
+    <p>日程内容：</p>
+    <p><textarea name="cont" id="event" placeholder="记录你将要做的一件事..." class=" form-controls col-xs-10 col-sm-5"
+                                              rows="5" style="height: 70px;width: 390px;"></textarea></p>
+    <br><br><br>
+    <p>开始时间：<input type="text" class="input datepicker" name="startdate" id="startdate" value="{:input('get.date')}" readonly>
+    <span id="sel_start" style="display:none"><select name="s_hour">
+        <option value="00">00</option>
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08" selected>08</option>
+        <option value="09">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+    </select>:
+    <select name="s_minute">
+        <option value="00" selected>00</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+    </span>
+    </p>
+    <p id="p_endtime" {$data.end_display}>结束时间：<input type="text" class="input datepicker" name="enddate" id="enddate" value="{$data.end_d}" readonly>
+    <span id="sel_end" style="display:none;"><select name="e_hour">
+        <option value="00">00</option>
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09">09</option>
+        <option value="10">10</option>
+        <option value="11" selected>11</option>
+        <option value="12" >12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+    </select>:
+    <select name="e_minute">
+        <option value="00" >00</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30" selected>30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+    </span>
+    </p>
+    <p>
+    <label><input type="checkbox" value="1" id="isallday" name="isallday" checked> 全天</label>
+    <label><input type="checkbox" value="1" id="isend" name="isend" {$data.end_chk}> 结束时间</label>&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="">颜色</label>
+    <select name="color">
+        <option value="" selected>随机</option>
+        <option value="#00FFFF" style="background-color: #00FFFF;color:#000000;">#00FFFF</option>
+        <option value="#7FFFD4" style="background-color: #7FFFD4;color:#000000;">#7FFFD4</option>
+        <option value="#F5F5DC" style="background-color: #F5F5DC;color:#000000;">#F5F5DC</option>
+        <option value="#90EE90" style="background-color: #90EE90;color:#000000;">#90EE90</option>
+        <option value="#E6E6FA" style="background-color: #E6E6FA;color:#000000;">#E6E6FA</option>
+        <option value="#FFF0F5" style="background-color: #FFF0F5;color:#000000;">#FFF0F5</option>
+        <option value="#ADFF2F" style="background-color: #ADFF2F;color:#000000;">#ADFF2F</option>
+        <option value="#EDCBD3" style="background-color: #EDCBD3;color:#000000;">#EDCBD3</option>
+        <option value="#E0FFFF" style="background-color: #E0FFFF;color:#000000;">#E0FFFF</option>
+        <option value="#FAFAD2" style="background-color: #FAFAD2;color:#000000;">#FAFAD2</option>
+        <option value="#90EE90" style="background-color: #90EE90;color:#000000;">#90EE90</option>
+        <option value="#FFB6C1" style="background-color: #FFB6C1;color:#000000;">#FFB6C1</option>
+        <option value="#FFFFE0" style="background-color: #FFFFE0;color:#000000;">#FFFFE0</option>
+        <option value="#FFE4E1" style="background-color: #FFE4E1;color:#000000;">#FFE4E1</option>
+        <option value="#FFCCCC" style="background-color: #FFCCCC;color:#000000;">#FFCCCC</option>
+        <option value="#FFFFCC" style="background-color: #FFFFCC;color:#000000;">#FFFFCC</option>
+        <option value="#FFFF99" style="background-color: #FFFF99;color:#000000;">#FFFF99</option>
+        <option value="#FAC9E8" style="background-color: #FAC9E8;color:#000000;">#FAC9E8</option>
+        <option value="#CCFF99" style="background-color: #CCFF99;color:#000000;">#CCFF99</option>
+        <option value="#CCFFFF" style="background-color: #CCFFFF;color:#000000;">#CCFFFF</option>
+        <option value="#CCFFCC" style="background-color: #CCFFCC;color:#000000;">#CCFFCC</option>
+        <option value="#FF99FF" style="background-color: #FF99FF;color:#000000;">#FF99FF</option>
+        <option value="#99FF99" style="background-color: #99FF99;color:#000000;">#99FF99</option>
+        <option value="#FFCC66" style="background-color: #FFCC66;color:#000000;">#FFCC66</option>
+        
+       
+    </select>
+    </p><br>
+    <div class="sub_btn"><input type="submit" class="btn btn_ok" value="确定"> <input type="button" class="btn btn_cancel" value="取消" onClick="$.fancybox.close()"></div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/fullcalendar/js/jquery.form.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $(".datepicker").datepicker({ minDate: -20, maxDate: "+6M +10D" ,dateFormat: "yy-mm-dd"});
+    $("#isallday").click(function(){
+        if($("#sel_start").css("display")=="none"){
+            $("#sel_start,#sel_end").show();
+        }else{
+            $("#sel_start,#sel_end").hide();
+        }
+    });
+    
+    $("#isend").click(function(){
+        if($("#p_endtime").css("display")=="none"){
+            $("#p_endtime").show();
+        }else{
+            $("#p_endtime").hide();
+        }
+        $.fancybox.resize();//调整高度自适应
+    });
+    
+    //提交表单
+    $('#add_form').ajaxForm({
+        beforeSubmit: showRequest,
+        success: showResponse
+    }); 
+    
+    //删除事件
+    $("#del_event").click(function(){
+        if(confirm("您确定要删除吗？")){
+            var eventid = $("#eventid").val();
+            $.post("do.php?action=del",{id:eventid},function(msg){
+                if(msg==1){
+                    $.fancybox.close();
+                    $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据
+                }else{
+                    alert(msg); 
+                }
+            });
+        }
+    });
+});
+
+function showRequest(){
+    var events = $("#event").val();
+    if(events==''){
+        alert("请输入日程内容！");
+        $("#event").focus();
+        return false;
+    }
+}
+
+function showResponse(responseText, statusText, xhr, $form){
+    if(statusText=="success"){  
+        
+        if(responseText==1){
+            $.fancybox.close();
+            $('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据
+        }else{
+            layer.msg(responseText, {icon: 5});
+            //alert(responseText.info);
+      
+        }
+    }else{
+        alert(statusText);
+    }
+}
+</script>

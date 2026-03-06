@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Global Maxim">
+  <meta name="generator" content="Global Maxim">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacts员工通讯录</title>
+  {include file="Publicc:head" /}
+</head>
+<body>
+  {include file="Publicc:headernav" /}
+      <div class="container">
+        <div id="row_row-6" class="row  sunfw-flex-component">
+          <br>
+          <!-- 循环文章列表开始 -->
+          <div id="b-content" class="container">
+            <!-- 左侧文章开始 -->
+            <div class="row text-center"
+            style="margin-left: 0px; height: 60px;background-color: rgb(250, 0, 129);">
+            <div class="col-md-12" style="margin-top: 14px;">
+                <p style="font-size: 21px;color: white;">
+                  员工通讯录 </p>
+            </div>
+        </div>
+            <div class="col-xs-12 col-md-12 col-lg-12">
+              <div class="row b-article" style="margin-right: -30px;">
+                <div class="layui-tab" style="border-top: 1px solid rgb(250, 0, 129);">
+                  <nav class="mysql">
+                    <!-- class="collapse navbar-collapse  navbar-form form-inline"  -->
+                    <div >
+                      <form class="form-inline" action="" method="post" id="formuser" enctype="multipart/form-data">
+                        <label class="inline">
+                         用户搜索
+                        </label>
+                        <select name="field" class="form-control">
+                         
+                          <option {if condition="input('field') eq 'name'"}selected{/if} value="name">姓名</option>
+                       
+                        </select>
+                        <input type="text" name="keyword" value="{:input('keyword')}" class="form-control">
+                        <select name="dept" class="form-control" >
+                          <option value="">可选部门</option>
+                          {volist name="data" id="val"}
+                            <option value="{$val['dept']}">
+                              {$val['dept']}
+                            </option>
+                          {/volist}
+                        </select>
+                        <span id="ids"></span>
+                        <button type="button" onclick="lists(1)"
+                        style="background: #18c6b5;border: none;height: 33px;width:66px;border-radius: 5px;color: white;">
+                        筛选 </button>
+                        &nbsp; &nbsp; 
+                      </form>
+                     
+                    </div>
+                  </nav>
+                  <div id="ajax_return"></div>
+                </div>
+              </div>
+              <br>
+            </div>
+            <!-- 左侧文章结束 -->
+          </div>
+          <!-- 循环文章列表结束 -->
+          <br>
+        </div>
+         <!-- 回到顶部 -->
+   
+      </div>
+    <script>
+      $(document).ready(function () {
+        //默认显示
+        lists(1);
+      });
+
+      function lists(page) {
+        $.ajax({
+          url: "/User/telphone/p/" + page,
+          type: 'post',
+          data: $('#formuser').serialize(),
+          success: function (data) {
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if (data['info'] == '您没有权限访问') {
+              //layer.msg(data['info'], {icon: 4});
+              layer.alert(data['info'], {
+                icon: 4,
+                skin: 'layer-ext-moon'
+              })
+            }
+          }
+        });
+      }
+
+     
+    </script>
+    {include file="Publicc:footer" /}
+</body>
+
+</html>

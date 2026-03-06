@@ -1,0 +1,84 @@
+<include file="Public/head"/>
+<body class="no-skin">
+<include file="Public/header"/>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <include file="Public/sidebar"/>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- #section:basics/content.breadcrumbs -->
+            <include file="Public/breadcrumbs" />
+
+            <!-- /section:basics/content.breadcrumbs -->
+            <div class="page-content">
+                  
+                <include file="Public/set"/>
+
+                <!-- /section:settings.box -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+
+     <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th class="">ID</th>
+                                <th>用户</th>
+                                <th>公司</th>
+                                                          
+                                <th class="">内容</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>添加时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="data" id="val">
+                                <tr>
+                                    <td>{$val['id']}</td>
+                                    <td>{:member($val['uid'],'username')['username']}</td>
+                                    <td>{:user_company($val['cid'])}</td>
+                                    <td>{$val['title']}</td>
+                                    <td>{:date("Y-m-d H:i:s",$val['start'])}</td>
+                                    <td><?php if($val['end']==0){echo '全天';}else{echo date("Y-m-d H:i:s",$val['end']);} ?>
+                                   </td>
+                                   <td>{:date("Y-m-d H:i:s",strtotime("+8 hours",$val['time']))}</td>
+                                   <td> <a style="color: blue;" href="{:U('Admin/Recycle/recover',array('table_name'=>'calendar','id_name'=>'id','id_number'=>$val['id']))}">恢复</a> | <a style="color: blue;" href="javascript:if(confirm('确定要删除吗?')) location='{:U('Admin/Recycle/delete',array('table_name'=>'calendar','id_name'=>'id','id_number'=>$val['id']))}'">彻底删除</a></td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                       <div style="text-align: center;">
+                        {$page}
+                        <script>
+                            $('.current').addClass('vi');
+                        </script>
+                        </div>
+    <div style="clear:both"></div><br><br><br>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+    <include file="Public/footer"/>
+
+</div><!-- /.main-container -->
+
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>
