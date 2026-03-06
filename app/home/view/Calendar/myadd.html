@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="Global Maxim">
+	<meta name="generator" content="Global Maxim">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>添加行事历 - {$Think.config.config.sitename}</title>
+    {include file="Publicc:head"/}
+    <style>
+     .form-controls {
+
+    /* width: 100%; */
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.clear{ clear:both;} 
+    </style>
+</head>
+<body>
+<div id="sunfw-wrapper" class="sunfw-content ">
+<!--top1 -->
+
+<!--/top1 -->
+<!--top2 -->
+ {include file="Publicc:headernav"/}
+
+<!--/top2 -->
+<!--top3 -->
+<!--/top3 -->
+<!--top4 -->
+<!-- <include file="Public:nav"/> -->
+<!--/top4 -->
+<!--top5 -->
+
+<div id="sunfw_section_component" class="sunfw-section ">
+<div class="container">
+<div id="row_row-6" class="row  sunfw-flex-component">
+    
+<br>
+ <!-- 循环文章列表开始 -->
+  <div id="b-content" class="container">
+
+   <!-- 左侧文章开始 -->
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <div class="row b-article">
+                
+<div class="layui-tab" >
+          <ul class="layui-tab-title" >
+            <li  class="{if condition="request()->action() eq 'my'"}layui-this{/if}" onClick="ruifeng(1);"><span>我的行事历</span></li>
+            <li  class="{if condition="request()->action() eq 'myadd'"}layui-this{/if}" onClick="ruifeng(2);"><span>添加行事历</span></li>
+           
+          
+            
+          </ul>
+          
+        <!--ajax_s -->
+        <div id="ajax_return" style="padding-left: 15px;"><br>
+        <script src='__PUBLIC__/static/fullcalendar/js/jquery-ui.js'></script>
+        <script src='__PUBLIC__/static/fullcalendar/js/jquery.fancybox-1.3.1.pack.js'></script>
+        <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/fullcalendar/css/jquery-ui.css">
+<div class="fancy">
+    <h3>新建行事历</h3>
+    <form id="add_form" action="{:url('myadd',array('action'=>'add'))}" method="post">
+   <!--  <input type="hidden" name="isallday" id="isallday" value="1"> -->
+   
+    <p style="margin-bottom: 5px;"><label class="col-sm-1 col-xs-3 control-label no-padding-right" for="form-field-1" style="padding: 7px 0px;">
+                                    内容：</label>
+                 
+                  <!-- <input type="text" class=" form-controls col-xs-9 col-sm-9" name="cont" id="event"  placeholder=""   autocomplete="off"> --></p>
+                  <textarea name="cont" id="event" placeholder="" class=" form-controls col-xs-10 col-sm-5"
+                                              rows="5" style="height: 200px;"></textarea>
+     <div class="clear"></div>
+    
+    <div class="clear"></div><br><br>
+    <p>
+    <label style="cursor: pointer;" title="一天以内的时间段"><input type="radio" value="1" id="isend" name="isend" > 一天内</label>&nbsp;
+    <label style="cursor: pointer;" title="一整天的"><input type="radio" value="1" id="isallday" name="isallday" checked> 一天</label>&nbsp;
+    
+    <label style="cursor: pointer;"><input type="radio" value="1" id="isends" name="isends" > 一天以上</label>&nbsp;
+    </p>
+    <p style="margin-bottom: 5px;"><label class="col-sm-1 col-xs-3 control-label no-padding-right" for="form-field-1" style="padding: 7px 0px;">
+                                    开始时间：</label><input type="text" class="form-controls input datepicker" name="startdate" id="startdate" value="{:input('get.date')}" readonly>
+    <span id="sel_start" style="display:none"><select name="s_hour" class="form-controls">
+        <option value="00">00</option>
+        <option value="01">01</option>
+        <option value="02">02</option> 
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08" selected>08</option>
+        <option value="09">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+    </select> :
+    <select name="s_minute" class="form-controls">
+        <option value="00" selected>00</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+    </span>
+    </p>
+    <div class="clear"></div>
+    <p id="p_endtime" style="display:none"><label class="col-sm-1 col-xs-3 control-label no-padding-right" for="form-field-1" style="padding: 7px 0px;">
+                                    结束时间：</label><input type="text" class="form-controls input datepicker" name="enddate" id="enddate" value="" readonly>
+    <span id="sel_end" style="display:none"><select name="e_hour" class="form-controls">
+        <option value="00">00</option>
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08">08</option>
+        <option value="09">09</option>
+        <option value="10">10</option>
+        <option value="11" selected>11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+    </select> :
+    <select name="e_minute" class="form-controls">
+        <option value="00" selected>00</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30" selected>30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
+    </span>
+    </p>
+    <div class="clear"></div>
+    <!-- <p>
+    <label><input type="checkbox" value="1" id="isallday" name="isallday" checked> 全天</label>
+    <label><input type="checkbox" value="1" id="isend" name="isend" {$data.end_chk}> 结束时间</label>&nbsp;&nbsp;&nbsp;&nbsp;
+   
+    </p> -->
+    <br>
+    <div class="sub_btn"><input type="submit" class="bbtn bbtn-info btn_ok" value="确定"> &nbsp;<input type="button" class="bbtn bbtn-default btn_cancel" value="取消" onClick="$.fancybox.close()"></div>
+    </form>
+    <br><br><br>
+    <p></p>
+</div>
+<script type="text/javascript" src="__PUBLIC__/static/fullcalendar/js/jquery.form.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $(".datepicker").datepicker({ minDate: -20, maxDate: "+6M +10D" ,dateFormat: "yy-mm-dd"});
+    $("#isallday").click(function(){
+        $("#isend").prop("checked", false);
+        $("#isends").prop("checked", false);
+        $("#p_endtime").hide();
+        $("#sel_start,#sel_end").hide();
+        // if($("#sel_start").css("display")=="none"){
+        //     $("#sel_start,#sel_end").show();
+        //     $("#p_endtime").show();
+        //     $("#isend").prop("checked", true);
+        // }else{
+            
+        //     $("#sel_start,#sel_end").hide();
+        //     $("#p_endtime").hide();
+        //     $("#isend").prop("checked", false);
+        // }
+    });
+    
+    $("#isend").click(function(){
+        //全天选中,点结束时间时事件
+       $("#p_endtime").show();
+       $("#isallday").prop("checked", false);
+       $("#sel_start,#sel_end").show();
+        // if($("#p_endtime").css("display")=="none"){
+        //       $("#p_endtime").show();
+        // }else{
+        //       $("#p_endtime").hide();
+        // } 
+        // if($("#p_endtime").css("display")=="none"){
+        //     $("#p_endtime").show();
+        //     $("#isallday").prop("checked", false);//全天取消
+        //     $("#sel_start,#sel_end").show();
+        // }else{
+            
+        //     $("#p_endtime").hide();
+        //     $("#isallday").prop("checked", true);//全天选中
+        //     $("#sel_start,#sel_end").hide();
+        // }
+        $.fancybox.resize();//调整高度自适应
+    });
+    $("#isends").click(function(){
+        $("#p_endtime").show();
+        $("#sel_start,#sel_end").hide();
+        $("#isallday").prop("checked", false);
+    });
+    //提交表单
+    $('#add_form').ajaxForm({
+        beforeSubmit: showRequest,
+        success: showResponse
+    }); 
+    
+
+});
+
+function showRequest(){
+    var events = $("#event").val();
+    var cate = $("#cate").val();
+    var startdate = $("#startdate").val();
+    if(cate==''){
+        if(events==''){
+        
+        layer.msg("请输入日程内容！", {icon: 3});
+        $("#event").focus();
+        return false;
+        }
+    }
+    if(startdate==''){
+        //alert("请选择时间！");
+        layer.msg("请选择时间！", {icon: 3});
+        //$("#event").focus();
+        return false;
+    }
+}
+
+function showResponse(responseText, statusText, xhr, $form){
+    if(statusText=="success"){  
+        
+        if(responseText==1){
+            //$.fancybox.close();
+            //$('#calendar').fullCalendar('refetchEvents'); //重新获取所有事件数据
+            
+            document.location='./my.html';
+            layer.msg('提交成功', {icon: 1});
+        }else{
+            layer.msg(responseText, {icon: 5});
+            //alert(responseText.info);
+      
+        }
+    }else{
+        alert(statusText);
+    }
+}
+</script>
+<br><br><br><br><br><br>
+        </div>
+        <!--ajax_e -->
+        </div>
+            </div>
+            <br>
+    
+        </div>
+        <!-- 左侧文章结束 -->
+
+    </div>
+    <!-- 循环文章列表结束 -->
+ <br>
+    </div></div></div>
+<!--/top5 -->
+<!--top6-->
+<script>
+   function ruifeng(a){
+
+    if(a==1){
+        document.location='./my.html'; 
+
+    }else{
+        document.location='./myadd.html'; 
+    }
+
+   
+   }
+   
+  </script>
+<!--/top6-->
+<!--top7 -->
+{include file="Publicc:footerjs"/}
+{include file="Publicc:footer"/}
+<!--/top7 -->
+</div>
+</body>
+</html>

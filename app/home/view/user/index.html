@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="{$Think.config.config.description}">
+  <meta name="generator" content="jd.she">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Center用户中心 - {$Think.config.config.sitename}</title>
+  {include file="Publicc:head" /}  
+</head>
+<body>
+  {include file="Publicc:headernav" /}
+    <!-- 标题 --><br>
+    <div class="row text-center"
+    style="height: 60px;background-color: rgb(250, 0, 129);">
+    <div class="col-md-12" style="margin-top: 12px;">
+        <p style="font-size: 21px;color: white;">
+          个人信息 </p>
+    </div>
+</div>
+  <div id="sunfw-wrapper" class="sunfw-content ">
+    <div id="sunfw_section_component" class="sunfw-section ">
+      <div class="container">
+        <div id="row_row-6" class="row  sunfw-flex-component">
+          <br>
+          <!-- 循环文章列表开始 -->
+          <div id="b-content" class="container">
+            <!-- 左侧文章开始 -->
+            <div class="col-xs-12 col-md-12 col-lg-12">
+              <div class="row b-article" style="margin-right: -30px;">
+                <div class="layui-tab">
+                  <ul class="layui-tab-title">
+                    <li class="layui-this" onclick="lists();"><span>
+                        个人信息
+                      </span></li>
+                    <li class="" onclick="edit();"><span>
+                       修改信息
+                      </span></li>
+                    <li class="" onclick="passwd();"><span>
+                        修改密码
+                      </span></li>
+                   <!--  <li class="" onclick="phone();"><span>
+                        修改手机号
+                      </span></li> -->
+                  </ul>
+
+                  <div id="ajax_return"></div>
+                </div>
+              </div>
+              <br>
+
+            </div>
+            <!-- 左侧文章结束 -->
+
+          </div>
+          <!-- 循环文章列表结束 -->
+          <br>
+        </div>
+      </div>
+    </div>
+    <!--/top5 -->
+    {include file="Publicc:footerjs" /}  
+    <!--top6-->
+    <script>
+      $(document).ready(function () {
+        //默认显示        
+        var type = "{:input('get.passwd')}";
+        if (type == 'pwd') {
+          passwd();
+        } else {
+          lists();
+        }
+      });
+
+      function lists() {
+        $.ajax({
+          url: "{:url('User/info')}",
+          type: 'post',
+          data: $('#formuser').serialize(),
+          success: function (data) {
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if (data['info'] == '您没有权限访问') {
+              //layer.msg(data['info'], {icon: 4});
+              layer.alert(data['info'], {
+                icon: 4,
+                skin: 'layer-ext-moon'
+              })
+            }
+          }
+        });
+      }
+
+      function edit() {
+        //var rank = $('#box').val();
+        $.ajax({
+          url: "{:url('User/edit')}",
+          type: 'post',
+          data: $('#formuser').serialize(),
+          success: function (data) {
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if (data['info'] == '您没有权限访问') {
+              //layer.msg(data['info'], {icon: 4});
+              layer.alert(data['info'], {
+                icon: 4,
+                skin: 'layer-ext-moon'
+              })
+            }
+          }
+        });
+      }
+
+      function passwd() {
+        //var rank = $('#box').val();
+        $.ajax({
+          url: "{:url('User/passwd')}",
+          type: 'post',
+          data: $('#formuser').serialize(),
+          success: function (data) {
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if (data['info'] == '您没有权限访问') {
+              //layer.msg(data['info'], {icon: 4});
+              layer.alert(data['info'], {
+                icon: 4,
+                skin: 'layer-ext-moon'
+              })
+            }
+          }
+        });
+      }
+
+      function phone() {
+        //var rank = $('#box').val();
+        $.ajax({
+          url: "{:url('User/myphone')}",
+          type: 'get',
+          data: $('#formuser').serialize(),
+          success: function (data) {
+            $("#ajax_return").html('');
+            $("#ajax_return").append(data);
+            if (data['info'] == '您没有权限访问') {
+              //layer.msg(data['info'], {icon: 4});
+              layer.alert(data['info'], {
+                icon: 4,
+                skin: 'layer-ext-moon'
+              })
+            }
+          }
+        });
+      }
+    </script>
+  </div>
+</body>
+
+</html>

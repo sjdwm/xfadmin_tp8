@@ -1,0 +1,22 @@
+
+
+   <article class="container" style="position: fixed;top: 380px;right: -10px;">
+    <section class="model-4">
+      <div class="float-btn-group">
+        <button class="btn-float btn-triger pink"><i class="icon-bars"></i></button>
+        <div class="btn-list">
+            <a href="{:url('User/index')}" class="btn-float yellow">我的</a>
+            <a href="mailto:admin@hotxf.com" class="btn-float blue">联系</a>
+            <a href="{:url('Groupnotice/help')}" class="btn-float green">帮助</a>
+            <!-- <a href="#" class="btn-float purple"><i class="fa fa-line-chart"> </i></a> -->
+        </div>
+      </div>
+    </section>
+</article>
+
+   <script>
+
+$('.btn-triger').mouseenter(function () {
+	    $(this).closest('.float-btn-group').toggleClass('open');
+	});
+   </script>

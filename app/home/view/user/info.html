@@ -1,0 +1,99 @@
+    <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">我的资料</div>
+          <div class="layui-card-body" pad15="">
+            
+            <div class="layui-form" lay-filter="">
+                <div class="layui-form-item">
+                <label class="layui-form-label">公司</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" value="{:user_company($user['mid'])}" readonly="" class="layui-input">
+                </div>
+                
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" value="{$user.name}" readonly="" class="layui-input">
+                </div>
+                
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="username" value="{$user.username}" readonly="" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">登入名</div>
+              </div>
+              
+            
+             <div class="layui-form-item">
+                <label class="layui-form-label" >性别</label>
+                <div class="layui-input-block" style="padding-left: 1px;">
+                <input type="radio" name="sex" value="男" title="男" {if condition="$user['sex'] eq '1'"}checked="checked"{/if}><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>男</div></div>
+                <input type="radio" name="sex" value="女" title="女" {if condition="$user['sex'] eq '2'"}checked="checked"{/if} ><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>女</div></div>
+                  
+                  
+                </div>
+              </div>
+   
+              <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-inline" style="margin-left: 20px;">
+                  <!-- <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="http://{$_SERVER['HTTP_HOST']}{$user.head_img}" class="layui-input"> -->
+                  <img src="{$user.head_img}" alt="" style="width: 150px;height: 150px;border-radius: 50%;">
+                </div>
+               <!--  <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                 
+                  <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview"><a href="http://{$_SERVER['HTTP_HOST']}{$user.head_img}" target="_blank">查看图片</a></button>
+                </div> -->
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="cellphone" value="{$user.phone}" readonly="" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <!-- <div class="layui-form-item">
+                <label class="layui-form-label">分机</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="cellphone" value="{$user.telphone}" readonly="" autocomplete="off" class="layui-input" placeholder="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">格式：+86 021-64064227-分机号</div>
+              </div> -->
+              <!-- <div class="layui-form-item">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="email" value="{$user.email}" readonly="" autocomplete="off" class="layui-input">
+                </div>
+              </div> -->
+              <div class="layui-form-item">
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="email" value="{$user.post}" readonly="" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">生日</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="" value="{$user.birthday}" readonly="" class="layui-input">
+                </div>
+              </div>
+       
+             
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+layui.use('form', function(){
+  var form = layui.form; 
+  form.render();
+
+}); 
+   </script>
