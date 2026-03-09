@@ -413,6 +413,7 @@ class Group extends ComController
         $category = $tree->get_tree(0, $str, $pid);//dump($category);exit;
         //$option = $this->getMenu($option);
         View::assign('option', $category);
+        View::assign('currentmenu', array('id'=>0,'pid'=>0,'title'=>null,'ename'=>null,'name'=>null,'url'=>null,'icon'=>null,'islink'=>null,'o'=>null,'tips'=>null));
         return View::fetch();
     }
     //前台用户权限更新

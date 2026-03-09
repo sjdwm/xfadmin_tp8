@@ -18,7 +18,7 @@
 				<ul class="nav navbar-nav navbar-left">
 					<!-- 1 -->{volist name="cate" id="vo"}
 					<li class="drop"><a 
-						href="{$vo.url}">{$_SESSION['user']['lang']==0?$vo['title']:$vo['ename']}<?php if(!empty($vo['_data'])): ?><?php endif; ?></a>
+						href="{$vo.url}">{$vo['title']}<?php if(!empty($vo['_data'])): ?><?php endif; ?></a>
 				<?php if(!empty($vo['_data'])): ?>
 						<ul class="drop-down">
 							<!-- 2 -->{volist name="vo['_data']" id="v"}

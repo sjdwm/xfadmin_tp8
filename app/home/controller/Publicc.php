@@ -21,8 +21,8 @@ class Publicc extends BaseController
         }
         $nav[0] = array('id'=>0,'pid'=>0,'title'=>'首页Home','name'=>'Index/index','url'=>'/');
         $nav[1] = array('id'=>1,'pid'=>0,'title'=>'用户登录Login','name'=>'Publicc/login','url'=>'/Publicc/login');
-        $nav[2] = array('id'=>2,'pid'=>0,'title'=>'用户注册Reg','name'=>'Publicc/reg','url'=>'/Publicc/reg');
-        $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/Publicc/help');
+        $nav[2] = array('id'=>2,'pid'=>0,'title'=>'用户注册Reg','name'=>'Publicc/reg','url'=>'/');
+        $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/');
         View::assign('cate', $nav);//导航
         return View::fetch();
     }
@@ -93,13 +93,7 @@ class Publicc extends BaseController
             }
 
         }  
-        //如果是ERP账号登录的,当前系统里也有他的账号,就看他的密码是否和ERP相同,不同就改为相同
-        if ($data['id']>0 and $user_info['mid']) {                   
-            //如果系统里有他的数据,看看密码有没有改变,改变了更新下密码
-                if($user_info['password']!=password($password)){
-                   Db::name('users')->where(array('username'=>$username))->save(array('password'=>password($password))); 
-                }
-        }
+       
             //登录成功,写入用户信息到session
             $salt = Config::get('app.cookie_salt');
             $ip = request()->ip();
