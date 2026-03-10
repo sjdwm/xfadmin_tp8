@@ -31,8 +31,9 @@ return [
     // 默认跳转页面对应的模板文件【新增】
     /*'dispatch_success_tmpl' => app()->getRootPath() . '/public/static/tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'  => app()->getRootPath() . '/public/static/tpl/dispatch_jump.tpl',*/
-    'dispatch_success_tmpl' => app()->getRootPath() . 'app\admin\view\Public\jump.html',
-    'dispatch_error_tmpl'  => app()->getRootPath() . 'app\admin\view\Public\jump.html',
+    'dispatch_success_tmpl' => 'Public/jump.html',
+    'dispatch_error_tmpl'  => 'Public/jump.html',
+    //'dispatch_error_tmpl'  => app()->getRootPath() . 'app\admin\view\Public\jump.html',
 
     // 错误显示信息,非调试模式有效
     'error_message'    => '页面错误！请稍后再试～',
