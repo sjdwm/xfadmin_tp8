@@ -19,7 +19,7 @@ class Article extends ComController
         $str = "<option value=\$id \$selected>\$spacer\$name</option>"; //生成的形式
         $category = $tree->get_tree(0, $str, 0);
         View::assign('category', $category);//导航
-        View::assign('article', array('aid'=>null,'cid'=>null,'title'=>null,'keywords'=>null,'description'=>null,'thumbnail'=>null,'is_show'=>null,'is_top'=>null,'content'=>null,'is_s'=>null));
+        View::assign('article', array('aid'=>null,'cid'=>null,'title'=>null,'keywords'=>null,'description'=>null,'thumbnail'=>null,'is_show'=>1,'is_top'=>null,'content'=>null,'is_s'=>null));
         return View::fetch('form');
     }
 
@@ -50,7 +50,7 @@ class Article extends ComController
         View::assign('category', $category);//分类
         $count = Db::name('article')->alias('a')->where($where)->join('category c', 'c.id = a.cid')->count();
         $page = new Page($count,12);        
-        $list = Db::name('article')->alias('a')->field("a.*,c.name,c.pid")->where($where)->order($orderby)->join('category c', 'c.id = a.cid')->limit($page->firstRow,$page->listRows)->select();//dump(Db::getLastSql());exit;
+        $list = Db::name('article')->alias('a')->field("a.*,c.name,c.pid")->where($where)->order($orderby)->join('category c', 'c.id = a.cid')->limit($page->firstRow,$page->listRows)->select()->toArray();//dump(Db::getLastSql());exit;
         foreach ($list as $key => $value) {
             $list[$key]['s_name'] = Db::name('category')->where(array('id'=>$value['pid']))->value('name').'-';
         }
@@ -132,6 +132,7 @@ class Article extends ComController
             //addlog('编辑文章，AID：' . $aid);
             $this->success('恭喜！文章编辑成功！','index');
         } else {
+            $data['uid'] = session('user.id');
             $data['time'] = time();
             $aid=Db::name('Article')->insert($data);
             if ($aid) {
