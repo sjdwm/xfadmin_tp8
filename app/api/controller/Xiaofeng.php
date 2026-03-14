@@ -11,19 +11,152 @@ use app\validate\User;
 use think\exception\ValidateException;
 class xiaofeng 
 {
-    // 定义配置项
+    // Token JWT定义配置项
     private $JWT_SECRET;
     private $ACCESS_TOKEN_EXPIRES_IN;
-    private $REFRESH_TOKEN_EXPIRES_IN;   
+    private $REFRESH_TOKEN_EXPIRES_IN; 
+    // 微信小程序配置
+    private $WECHAT_APPID;
+    private $WECHAT_SECRET;  
+    // 头像保存路径
+    private $AVATAR_SAVE_PATH;
     // 构造函数
     public function __construct(){
     // Token JWT 密钥
-    $this->JWT_SECRET = 'WFskbrlnd+Yo01h0GAq+BQTXY1sa+8jrbICs9kB9R/Q=';
+    $this->JWT_SECRET = 'WFskbrlnd+Yo01h0GAq+BQTXY1sa+8jr23452342bICs9kB9R/Q=';
     //Token 有效期（秒）
     $this->ACCESS_TOKEN_EXPIRES_IN = 7200;// 2小时
-    $this->REFRESH_TOKEN_EXPIRES_IN = 2592000;// 30天        
-
+    $this->REFRESH_TOKEN_EXPIRES_IN = 2592000;// 30天 
+    // 微信小程序配置（请替换为你的 AppID 和 AppSecret）
+    $this->WECHAT_APPID = 'wxe3ba20277673623423e56';        // 微信小程序 AppID
+    $this->WECHAT_SECRET = 'e865b1f514dc34da820bf22342345369279b92';       // 微信小程序 AppSecret    
+    // 头像保存路径（相对于项目根目录）
+    $this->AVATAR_SAVE_PATH = '/upload/imger_user/';
 }
+ /**
+     * 微信一键登录接口
+     * POST /api/xiaofeng/wxlogin
+     * 使用微信 code 换取 openid 并登录
+     */
+    public function wxlogin(){
+        $data = TrimArray(input());
+
+        // 验证 code（必填）
+        if (empty($data['code'])) {
+            return json(array('code'=>400,'msg'=>'缺少 code 参数','data'=>''));
+        }
+
+        // 获取设备ID（可选，用于设备绑定）
+        $deviceId = $data['deviceId'] ?? '';
+
+        // 1. 使用 code 向微信服务器换取 openid 和 session_key
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid={$this->WECHAT_APPID}&secret={$this->WECHAT_SECRET}&js_code={$data['code']}&grant_type=authorization_code";
+
+        $response = file_get_contents($url);
+
+        if (!$response) {
+            return json(array('code'=>500,'msg'=>'微信服务器请求失败','data'=>''));
+        }
+
+        $wxData = json_decode($response, true);
+
+        // 检查微信API返回的错误
+        if (isset($wxData['errcode'])) {
+            $errMsg = isset($wxData['errmsg']) ? $wxData['errmsg'] : '未知错误';
+            return json(array('code'=>400,'msg'=>'微信登录失败: ' . $errMsg,'data'=>''));
+        }
+
+        $openid = $wxData['openid'] ?? '';
+        $sessionKey = $wxData['session_key'] ?? '';
+
+        if (empty($openid)) {
+            return json(array('code'=>400,'msg'=>'获取 openid 失败','data'=>''));
+        }
+
+        // 2. 查询用户是否存在
+        $user_info = Db::name('users')->where(array('openid'=>$openid))->find();
+
+        if ($user_info) {
+            // 用户已存在，更新登录信息
+            $ip = request()->ip();
+            Db::name('users')->where(array('id'=>$user_info['id']))->save(array(
+                'login_time' => time(),
+                'login_ip' => $ip
+            ));
+            userLog('微信登录成功,用户ID:'.$user_info['id'],1);
+        } else {
+            // 新用户，创建账号
+            $ip = request()->ip();
+            $newUserData = array(
+                'openid' => $openid,
+                'name' => '微信用户' . substr($openid, -6),  // 默认昵称
+                'username' => $openid,  // 使用 openid 作为用户名
+                'phone' => '',  // 空手机号，后续可以绑定
+                'device_id' => $deviceId,
+                'head_img' => '/upload/imger_user/user.png',  // 默认头像
+                'sex' => 1,                
+                'login_ip' => $ip,
+                'reg_time' => time(),
+                'birthday' => date('Y-m-d', time())
+            );
+
+            $uid = Db::name('users')->insertGetId($newUserData);
+
+            if($uid > 0) {
+                $user_info = Db::name('users')->where(array('id'=>$uid))->find();
+                userLog('微信新用户注册成功,用户ID:'.$uid,1);
+            } else {
+                return json(array('code'=>500,'msg'=>'用户创建失败','data'=>''));
+            }
+        }
+
+        // 3. 生成 Access Token（2小时有效）- 包含完整用户信息
+        $access = [
+            'userId' => $user_info['id'],
+            'phone' => $user_info['phone'],
+            'nickname' => $user_info['name'],
+            'avatar' => $user_info['head_img'] ?? '',
+            'gender' => $user_info['sex'] ?? 1,
+            'birthday' => $user_info['birthday'] ?? '',
+            'hasPassword' => !empty($user_info['password']),
+            'openid' => $user_info['openid'],
+            'type' => 'access',
+            'iat' => time(),
+            'exp' => time() + $this->ACCESS_TOKEN_EXPIRES_IN
+        ];
+        $accessToken = JWT::encode($access, $this->JWT_SECRET, "HS256");
+
+        // 4. 生成 Refresh Token（30天有效）
+        $refresh = [
+            'userId' => $user_info['id'],
+            'phone' => $user_info['phone'],
+            'nickname' => $user_info['name'],
+            'openid' => $user_info['openid'],
+            'type' => 'refresh',
+            'iat' => time(),
+            'exp' => time() + $this->REFRESH_TOKEN_EXPIRES_IN
+        ];
+        $refreshToken = JWT::encode($refresh, $this->JWT_SECRET, "HS256");
+
+        // 5. 返回登录信息
+        return json([
+            'code' => 200,
+            'msg' => '登录成功',
+            'data' => [
+                'userId' => (int)$user_info['id'],
+                'openid' => $user_info['openid'],
+                'phone' => $user_info['phone'],
+                'nickname' => $user_info['name'],
+                'avatar' => $user_info['head_img'] ?? '',
+                'gender' => $user_info['sex'] ?? 1,
+                'birthday' => $user_info['birthday'] ?? '',
+                'hasPassword' => !empty($user_info['password']),
+                'accessToken' => $accessToken,
+                'refreshToken' => $refreshToken,
+                'tokenType' => 'Bearer'
+            ]
+        ]);
+    }
 /**
  * refresh 用户登录接口
  * POST /api/xiaofeng/login
@@ -79,11 +212,15 @@ class xiaofeng
             $ip = request()->ip();
             Db::name("users")->where(array('id'=>$user_info['id']))->save(array('login_time'=>time(),'login_ip'=>$ip));
             userLog('前台登录成功,用户名:'.$user_info['name'],1);
-            // 生成 Access Token（2小时有效）
+            // 生成 Access Token（2小时有效）- 包含完整用户信息
                 $access = [
                     'userId' => $user_info['id'],
                     'phone' => $user_info['phone'],
                     'nickname' => $user_info['name'],
+                    'avatar' => $user_info['head_img'] ?? '',
+                    'gender' => $user_info['sex'] ?? 1,
+                    'birthday' => $user_info['birthday'] ?? '',
+                    'hasPassword' => !empty($user_info['password']),
                     'type' => 'access',
                     'iat' => time(),
                     'exp' => time() + $this->ACCESS_TOKEN_EXPIRES_IN  // 24小时后过期
@@ -107,6 +244,9 @@ class xiaofeng
                         'userId' => (int)$user_info['id'],
                         'phone' => $user_info['phone'],
                         'nickname' => $user_info['name'],
+                        'avatar' => $user_info['head_img'] ?? '',
+                        'gender' => $user_info['sex'] ?? 1,
+                        'birthday' => $user_info['birthday'] ?? '',
                         'hasPassword' => !empty($user_info['password']),
                         'accessToken' => $accessToken,
                         'refreshToken' => $refreshToken,
@@ -139,7 +279,7 @@ class xiaofeng
         if (empty($da['deviceId'])) {
             return json(array('code'=>400,'msg'=>$da['deviceId'],'data'=>''));
         }else{
-            // 1. 检查前缀是否为 "DEV"（严格区分大小写）
+            // 1. 检查前缀是否为 "dev"（严格区分大小写）
             if (substr($da['deviceId'], 0, 3) !== 'dev') {
                 return json(['code' => 400, 'msg' => '无效的设备ID格式']);
             }
@@ -178,9 +318,9 @@ class xiaofeng
         }
         $data['sex'] = input('sex',0,'intval');
         if($data['sex']==1){
-            $data['head_img'] = '/static/xfadmin/img/1.png';
+            $data['head_img'] = '/upload/imger_user/user.png';
         }else{
-            $data['head_img'] = '/static/xfadmin/img/2.gif';
+            $data['head_img'] = '/upload/imger_user/user.png';
         }        
         $data['phone'] = $da['phone'];
         $data['name'] = $da['nickname'];
@@ -195,11 +335,15 @@ class xiaofeng
         $data['reg_time'] = time();
         $uid = Db::name('users')->insertGetId($data);
         if($uid>0){
-            // 生成 Access Token（2小时有效）
+            // 生成 Access Token（2小时有效）- 包含完整用户信息
                 $access = [
                     'userId' => $uid,
                     'phone' => $data['phone'],
                     'nickname' => $data['name'],
+                    'avatar' => $data['head_img'] ?? '',
+                    'gender' => $data['sex'] ?? 1,
+                    'birthday' => $data['birthday'] ?? '',
+                    'hasPassword' => !empty($data['password']),
                     'type' => 'access',
                     'iat' => time(),
                     'exp' => time() + $this->ACCESS_TOKEN_EXPIRES_IN  // 24小时后过期
@@ -222,7 +366,10 @@ class xiaofeng
                     'userId' => $uid,
                     'phone' => $da['phone'],
                     'nickname' => $data['name'],
-                    'hasPassword' => '',
+                    'avatar' => $data['head_img'] ?? '',
+                    'gender' => $data['sex'] ?? 1,
+                    'birthday' => $data['birthday'] ?? '',
+                    'hasPassword' => !empty($data['password']),
                     'accessToken' => $accessToken,
                     'refreshToken' => $refreshToken,
                     'tokenType' => 'Bearer'
@@ -245,19 +392,28 @@ class xiaofeng
         if (empty($data['refreshToken'])) {
             return json(array('code'=>400,'msg'=>'Refresh Token 不能为空','data'=>''));
         }        
+        
         try {
                 $decoded = JWT::decode($data['refreshToken'], new Key($this->JWT_SECRET, 'HS256'));
-                // 生成 Access Token（2小时有效）
+                
+                // 从数据库查询最新用户信息
+                $user_info = Db::name('users')->where(array('id'=>$decoded->userId))->find();
+                
+                // 生成 Access Token（2小时有效）- 包含完整用户信息
                 $access = [
-                    'userId' => $decoded->userId,
-                    'phone' => $decoded->phone,
-                    'nickname' => $decoded->nickname,
+                    'userId' => $user_info['id'],
+                    'phone' => $user_info['phone'],
+                    'nickname' => $user_info['name'],
+                    'avatar' => $user_info['head_img'] ?? '',
+                    'gender' => $user_info['sex'] ?? 1,
+                    'birthday' => $user_info['birthday'] ?? '',
+                    'hasPassword' => !empty($user_info['password']),
                     'type' => 'access',
                     'iat' => time(),
                     'exp' => time() + $this->ACCESS_TOKEN_EXPIRES_IN  // 24小时后过期
                 ];
                 $newAccessToken = JWT::encode($access, $this->JWT_SECRET, "HS256");  //生成了 token
-                // 验证数据库中的状态...
+                
                 return json([
                         'code' => 200,
                         'msg' => '刷新成功',
@@ -282,8 +438,299 @@ class xiaofeng
             }
     }
 
+ /**
+     * 获取用户信息接口
+     * GET /api/xiaofeng/info
+     * 获取当前登录用户的详细信息
+     */
+    public function info(){
+        // 验证 JWT Token
+        $authUser = $this->getAuthenticatedUser();
+        if (!$authUser) {
+            return json(array('code'=>401,'msg'=>'未授权，请先登录','data'=>''));
+        }
 
+        // 从 Token 中获取 userId
+        $userId = $authUser['userId'];
+
+        // 查询用户信息
+        $user_info = Db::name('users')->where(array('id'=>$userId))->find();
+
+        if (!$user_info) {
+            return json(array('code'=>400,'msg'=>'用户不存在','data'=>''));
+        }
+
+        // 性别转换：0保密 1男 2女
+        $genderMap = array(
+            0 => '保密',
+            1 => '男',
+            2 => '女'
+        );
+        $gender = isset($user_info['sex']) ? $genderMap[$user_info['sex']] : '保密';
+
+        // 返回用户信息
+        return json([
+            'code' => 200,
+            'msg' => 'success',
+            'data' => [
+                'userId' => (int)$user_info['id'],
+                'phone' => $user_info['phone'],
+                'nickname' => $user_info['name'],
+                'gender' => $gender,
+                'birthday' => $user_info['birthday'] ? $user_info['birthday'] : '',
+                'avatar' => $user_info['head_img'] ? $user_info['head_img'] : '',
+                'hasPassword' => !empty($user_info['password'])
+            ]
+        ]);
+    }
+
+    /**
+     * 更新用户信息接口
+     * POST /api/xiaofeng/update
+     * 更新当前登录用户的信息
+     */
+    public function update(){
+        // 验证 JWT Token
+        $authUser = $this->getAuthenticatedUser();
+        if (!$authUser) {
+            return json(array('code'=>401,'msg'=>'未授权，请先登录','data'=>''));
+        }
+
+        // 从 Token 中获取 userId
+        $userId = $authUser['userId'];
+
+        // 查询用户是否存在
+        $user_info = Db::name('users')->where(array('id'=>$userId))->find();
+
+        if (!$user_info) {
+            return json(array('code'=>400,'msg'=>'用户不存在','data'=>''));
+        }
+
+        // 获取请求数据
+        $data = TrimArray(input());
+
+        // 构建更新数据
+        $updateData = array();
+
+        // 更新昵称
+        if (isset($data['name']) && !empty($data['name'])) {
+            $updateData['name'] = trim($data['name']);
+        }
+
+        // 更新手机号
+        if (isset($data['phone']) && !empty($data['phone'])) {
+            // 验证手机号格式
+            if (!preg_match('/^1[3-9]\d{9}$/', $data['phone'])) {
+                return json(array('code'=>400,'msg'=>'手机号格式不正确','data'=>''));
+            }
+
+            // 检查手机号是否已被其他用户使用
+            $existingUser = Db::name('users')->where(array('phone'=>$data['phone']))->where('id', '<>', $userId)->find();
+            if ($existingUser) {
+                return json(array('code'=>400,'msg'=>'该手机号已被其他用户使用','data'=>''));
+            }
+
+            $updateData['phone'] = $data['phone'];
+        }
+
+        // 更新性别
+        if (isset($data['sex']) && in_array($data['sex'], array(0, 1, 2))) {
+            $updateData['sex'] = intval($data['sex']);
+        }
+
+        // 更新生日
+        if (isset($data['birthday']) && !empty($data['birthday'])) {
+            // 验证日期格式
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data['birthday'])) {
+                return json(array('code'=>400,'msg'=>'生日格式不正确，应为 YYYY-MM-DD','data'=>''));
+            }
+            $updateData['birthday'] = $data['birthday'];
+        }
+
+        // 更新头像
+        if (isset($data['head_img']) && !empty($data['head_img'])) {
+            $updateData['head_img'] = $data['head_img'];
+        }
+
+        // 如果没有需要更新的字段
+        if (empty($updateData)) {
+            return json(array('code'=>400,'msg'=>'没有需要更新的字段','data'=>''));
+        }
+
+        // 执行更新
+        $result = Db::name('users')->where(array('id'=>$userId))->save($updateData);
+
+        if ($result !== false) {
+            // 查询更新后的用户信息
+            $updatedUser = Db::name('users')->where(array('id'=>$userId))->find();
+
+            // 性别转换
+            $genderMap = array(
+                0 => '保密',
+                1 => '男',
+                2 => '女'
+            );
+            $gender = isset($updatedUser['sex']) ? $genderMap[$updatedUser['sex']] : '保密';
+
+            // 生成新的 Access Token（包含更新后的用户信息）
+            $newAccess = [
+                'userId' => $updatedUser['id'],
+                'phone' => $updatedUser['phone'],
+                'nickname' => $updatedUser['name'],
+                'avatar' => $updatedUser['head_img'] ?? '',
+                'gender' => $updatedUser['sex'] ?? 1,
+                'birthday' => $updatedUser['birthday'] ?? '',
+                'hasPassword' => !empty($updatedUser['password']),
+                'type' => 'access',
+                'iat' => time(),
+                'exp' => time() + $this->ACCESS_TOKEN_EXPIRES_IN
+            ];
+            $newAccessToken = JWT::encode($newAccess, $this->JWT_SECRET, "HS256");
+
+            return json([
+                'code' => 200,
+                'msg' => '更新成功',
+                'data' => [
+                    'userId' => (int)$updatedUser['id'],
+                    'phone' => $updatedUser['phone'],
+                    'nickname' => $updatedUser['name'],
+                    'gender' => $gender,
+                    'birthday' => $updatedUser['birthday'] ? $updatedUser['birthday'] : '',
+                    'avatar' => $updatedUser['head_img'] ? $updatedUser['head_img'] : '',
+                    'hasPassword' => !empty($updatedUser['password']),
+                    'accessToken' => $newAccessToken  // 返回新的 Access Token
+                ]
+            ]);
+        } else {
+            return json(array('code'=>500,'msg'=>'更新失败','data'=>''));
+        }
+    }
    
-   
-  
+      /**
+     * 验证 JWT Token
+     * @param string $token JWT Token
+     * @return array|false 解析后的用户信息，失败返回 false
+     */
+    private function verifyToken($token){
+        if (empty($token)) {
+            return false;
+        }
+
+        try {
+            // 解析 Token
+            $decoded = JWT::decode($token, new Key($this->JWT_SECRET, 'HS256'));
+            
+            // 验证 Token 类型（必须是 access token）
+            if (!isset($decoded->type) || $decoded->type !== 'access') {
+                return false;
+            }
+
+            // 验证过期时间
+            if (isset($decoded->exp) && $decoded->exp < time()) {
+                return false;
+            }
+
+            return (array)$decoded;
+        } catch (ExpiredException $e) {
+            return false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * 从请求中获取并验证 Token
+     * @return array|false 解析后的用户信息，失败返回 false
+     */
+    private function getAuthenticatedUser(){
+        // 从请求头获取 Authorization
+        $authorization = request()->header('Authorization');
+        
+        if (empty($authorization)) {
+            return false;
+        }
+
+        // 提取 Bearer Token
+        if (preg_match('/Bearer\s+(.*)$/i', $authorization, $matches)) {
+            $token = $matches[1];
+        } else {
+            $token = $authorization;
+        }
+
+        // 验证 Token
+        return $this->verifyToken($token);
+    }
+     /**
+     * 图片上传接口
+     * POST /api/xiaofeng/upload
+     * 上传用户头像等图片
+     */
+    public function upload(){
+        // 验证 JWT Token
+        $authUser = $this->getAuthenticatedUser();
+        if (!$authUser) {
+            return json(array('code'=>401,'msg'=>'未授权，请先登录','data'=>''));
+        }
+
+        // 获取上传的文件
+        $file = request()->file('file');
+
+        if (!$file) {
+            return json(array('code'=>400,'msg'=>'请选择要上传的文件','data'=>''));
+        }
+
+        // 验证文件类型（只允许图片）
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+        $mimeType = $file->getMime();
+
+        if (!in_array($mimeType, $allowedTypes)) {
+            return json(array('code'=>400,'msg'=>'只支持上传 jpg、png、gif 格式的图片','data'=>''));
+        }
+
+        // 验证文件大小（最大 5MB）
+        $maxSize = 5 * 1024 * 1024; // 5MB
+        if ($file->getSize() > $maxSize) {
+            return json(array('code'=>400,'msg'=>'图片大小不能超过 5MB','data'=>''));
+        }
+
+        try {
+            // 生成唯一文件名
+            $extension = pathinfo($file->getOriginalName(), PATHINFO_EXTENSION);
+            $fileName = 'avatar_' . $authUser['userId'] . '_' . time() . '_' . uniqid() . '.' . $extension;
+
+            // 保存文件到服务器
+            $uploadDir = root_path() . 'public' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . 'imger_user' . DIRECTORY_SEPARATOR;
+
+            // 检查目录是否存在，不存在则创建
+            if (!is_dir($uploadDir)) {
+                if (!mkdir($uploadDir, 0755, true)) {
+                    return json(array('code'=>500,'msg'=>'上传目录创建失败','data'=>''));
+                }
+            }
+
+            // 保存文件
+            $savePath = $uploadDir . $fileName;
+            $file->move($uploadDir, $fileName);
+
+            // 生成访问 URL
+            //$baseUrl = request()->domain();
+            //$fileUrl = $baseUrl . $this->AVATAR_SAVE_PATH . $fileName;
+             // 生成文件路径（相对路径）
+            $fileUrl = $this->AVATAR_SAVE_PATH . $fileName;
+
+            // 返回文件信息
+            return json([
+                'code' => 200,
+                'msg' => '上传成功',
+                'data' => [
+                    'url' => $fileUrl,
+                    'fileName' => $fileName,
+                    'size' => $file->getSize()
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return json(array('code'=>500,'msg'=>'上传失败：' . $e->getMessage(),'data'=>''));
+        }
+    }
 }
