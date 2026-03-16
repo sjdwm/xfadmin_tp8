@@ -71,8 +71,9 @@ class Company extends ComController
         $str = "<option value=\$id \$selected>\$spacer\$cname</option>"; //生成的形式
         $category = $tree->get_tree(0, $str, $pid);
         //$option = $this->getMenu($option);
+        $o = (int)Db::name('company')->where('pid', $pid)->max('o') + 1;
         View::assign('option', $category);
-        View::assign('currentmenu',array('id'=>null,'pid'=>null,'cname'=>null,'ename'=>null,'email'=>null,'address'=>null,'phone'=>null,'islink'=>null,'o'=>null,'tips'=>null));
+        View::assign('currentmenu',array('id'=>null,'pid'=>null,'cname'=>null,'ename'=>null,'email'=>null,'address'=>null,'phone'=>null,'islink'=>null,'o'=>$o,'tips'=>null));
         return View::fetch();
     }
     //更新

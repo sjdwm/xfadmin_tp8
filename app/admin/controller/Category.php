@@ -62,9 +62,9 @@ class Category extends ComController
         $tree = new Tree($category);
         $str = "<option value=\$id \$selected>\$spacer\$name</option>"; //生成的形式
         $category = $tree->get_tree(0, $str, $pid);
-
+        $o = (int)Db::name('category')->where('pid', $pid)->max('o') + 1;
         View::assign('category', $category);
-        View::assign('currentcategory', array('id'=>null,'type'=>null,'name'=>null,'dir'=>null,'seotitle'=>null,'keywords'=>null,'show'=>null,'description'=>null,'content'=>null,'url'=>null,'cattemplate'=>null,'contemplate'=>null,'o'=>null));
+        View::assign('currentcategory', array('id'=>null,'type'=>null,'name'=>null,'dir'=>null,'seotitle'=>null,'keywords'=>null,'show'=>null,'description'=>null,'content'=>null,'url'=>null,'cattemplate'=>null,'contemplate'=>null,'o'=>$o));
         return View::fetch('form');
     }
 
