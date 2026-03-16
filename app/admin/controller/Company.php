@@ -90,13 +90,23 @@ class Company extends ComController
         $data['o'] = input('post.o', '', 'intval');
         $data['tips'] = input('post.tips');
         $data['time'] = time(); 
-        $data['mid']= Db::name('company')->where(array('id'=>$data['pid']))->value('mid');
+        // 获取 mid
+        if ($data['pid'] == 0) {
+            // pid=0 时，mid 先设为0，插入后再更新为 id
+            $data['mid'] = 0;
+        } else {
+            // pid!=0 时，mid 等于 pid 这条数据的 mid
+            $data['mid']= Db::name('company')->where(array('id'=>$data['pid']))->value('mid');
+        }        
                
         if ($id) {
             Db::name('company')->where("id='{$id}'")->save($data);
         } else {
             
-            Db::name('company')->insert($data);
+            $id=Db::name('company')->insertGetId($data);
+            if($id>0 and $data['pid'] == 0){
+                Db::name('product_category')->where('id', $id)->update(['mid' => $id]);
+            }
         }
 
         $this->success('操作成功！','index');
