@@ -11,7 +11,7 @@ class Error {
         $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/Publicc/help');
        
         View::assign('cate', $nav);//导航
-        return View::fetch('Error/index');
+        return View::fetch('error/index');
 
     }
     public function index(){
@@ -22,6 +22,6 @@ class Error {
         $nav[3] = array('id'=>3,'pid'=>0,'title'=>'帮助Help','name'=>'Publicc/help','url'=>'/Publicc/help');
        
         View::assign('cate', $nav);//导航
-        return View::fetch('Error/index'); 
+        return View::fetch('error/index'); 
     }
 }

@@ -31,4 +31,27 @@ Hashids.php        ID加密类
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L]
 </IfModule> 
+
+##### 在Nginx低版本中，是不支持PATHINFO的，但是可以通过在Nginx.conf中配置转发规则实现：
+
+ location / {        
+        if (!-f $request_filename) {
+        rewrite  ^(.*)$  /index.php?s=/$1  last;
+        }
+    }
+##### 在IIS的高版本下面可以配置web.Config，在中间添加rewrite节点：
+<rewrite>
+ <rules>
+ <rule name="OrgPage" stopProcessing="true">
+ <match url="^(.*)$" />
+ <conditions logicalGrouping="MatchAll">
+ <add input="{HTTP_HOST}" pattern="^(.*)$" />
+ <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+ <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+ </conditions>
+ <action type="Rewrite" url="index.php/{R:1}" />
+ </rule>
+ </rules>
+ </rewrite>
+ 
 ![image](xfadmin.png)
