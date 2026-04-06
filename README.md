@@ -39,6 +39,10 @@ Hashids.php        ID加密类
         rewrite  ^(.*)$  /index.php?s=/$1  last;
         }
     }
+ 在新版本中支持PATHINFO
+ location / {  
+        try_files $uri $uri/ /index.php?s=$uri&$query_string;
+    }
 ##### 在IIS的高版本下面可以配置web.Config，在中间添加rewrite节点：
 <rewrite>
  <rules>

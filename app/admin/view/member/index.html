@@ -82,7 +82,7 @@
       function lists(page){
         //var rank = $('#box').val();
         $.ajax({
-          url:"/admin/member/ulist/p/"+page,
+          url:"{:url('ulist')}"+'?p='+page,
           type:'post',
           data:$('#formuser').serialize(),
           success:function(data){

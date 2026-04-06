@@ -126,7 +126,7 @@ class Article extends ComController
             $data['content']=preg_replace('/alt=\"(?<=").*?(?=")\"/','alt="hotxf.com"  class="zoom" onclick="zoom(this, this.getAttribute(&#39;zoomfile&#39;)||this.src, 0, 0, 1)"',$data['content']);
             //$data['content']=htmlspecialchars($data['content']);
             // 将绝对路径转换为相对路径
-            $data['content']=preg_replace('/src=\"^\/.*\/Upload\/image\/ueditor$/','src="/Upload/image/ueditor',$data['content']);
+            $data['content']=preg_replace('/src=\"^\/.*\/upload\/image\/ueditor$/','src="/upload/image/ueditor',$data['content']);
             Db::name('article')->where('aid',$aid)->save($data);
             session('tem_article_img',null);//销毁上传的图片地址
             //addlog('编辑文章，AID：' . $aid);
