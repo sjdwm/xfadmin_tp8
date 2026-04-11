@@ -215,9 +215,9 @@ class Member extends ComController
         //$head = input('post.head', '', 'strip_tags');
         $data['sex'] = input('sex',0,'intval');
         if($data['sex']==1){
-            $data['head_img'] = '/static/xfadmin/img/1.png';
+            $data['head_img'] = '/static/xfadmin/img/user.png';
         }else{
-            $data['head_img'] = '/static/xfadmin/img/2.gif';
+            $data['head_img'] = '/static/xfadmin/img/user2.png';
         }
         
         //$data['birthday'] = isset($_POST['birthday']) ? strtotime($_POST['birthday']) : 0;

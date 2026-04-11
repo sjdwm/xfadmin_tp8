@@ -93,7 +93,7 @@
                                         
                                         {foreach name="usergroup" item="val"}<label for="in{$val.id}">
                                         
-                                        <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" <in name="val['id']" value="$usergroup_access"> checked="checked" </in> ><span class="lbl"> {$val['title']}</span></label>
+                                        <input class="ace ace-checkbox-2 children" id="in{$val.id}" type="checkbox" name="group_ids[]" value="{$val['id']}" {in name="$val.id" value="$usergroup_access"} checked="checked" {/in} ><span class="lbl"> {$val['title']}</span></label>
                                         &emsp;                    
                                         {/foreach}
                                     {/if}
@@ -206,8 +206,8 @@
                             <div class="form-group">
                                 <label class="col-sm-1 control-label no-padding-right" for="form-field-6"> 电话号码 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="telphone" id="telphone" placeholder="例：+86 021-64064227-分机号"
-                                           class="col-xs-10 col-sm-5" value="{$member['telphone']==''?'+86 021-64064227-分机号':$member['telphone']}">
+                                    <input type="text" name="telphone" id="telphone" placeholder=""
+                                           class="col-xs-10 col-sm-5" value="{$member['telphone']==''?'':$member['telphone']}">
                                     <span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle">*请正确填写</span>
 											</span>

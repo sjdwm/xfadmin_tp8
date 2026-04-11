@@ -9,7 +9,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException; 
 use app\validate\User;
 use think\exception\ValidateException;
-class xiaofeng 
+class XiaoFeng 
 {
     // Token JWT定义配置项
     private $JWT_SECRET;
