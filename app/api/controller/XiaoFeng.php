@@ -29,7 +29,7 @@ class XiaoFeng
         $this->REFRESH_TOKEN_EXPIRES_IN = 2592000; // 30天
                                                    // 微信小程序配置（请替换为你的 AppID 和 AppSecret）
         $this->WECHAT_APPID  = 'wxe3ba202776736';  // 微信小程序 AppID
-        $this->WECHAT_SECRET = 'e865b1f514d12';    // 微信小程序 AppSecret
+        $this->WECHAT_SECRET = 'e865b1f514d1';     // 微信小程序 AppSecret
                                                    // 头像保存路径（相对于项目根目录）
         $this->AVATAR_SAVE_PATH = '/upload/imger_user/';
     }
